@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="IoCConfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="IoCConfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IoCTest\IoCTest.csproj" />
+  </ItemGroup>
+
+</Project>
