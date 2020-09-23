@@ -18,7 +18,13 @@ namespace IoCTest
         {
             return ToString() + ": " + txt;
         }
+
+
+        public virtual void ParentClassDoesKnow() { }
     }
 
-    public class OtherMessageDumper : MessageDumper { }
+    public class OtherMessageDumper : MessageDumper 
+    {
+        public virtual void ParentClassDontKnow() { }
+    }
 }

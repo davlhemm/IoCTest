@@ -26,7 +26,7 @@ namespace IoCWebAppAspCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IBase, MessageDumper>();
+            services.AddSingleton<IBase, OtherMessageDumper>();
             services.Configure<IoCOptions>(Configuration);
 
             services.AddControllersWithViews();
