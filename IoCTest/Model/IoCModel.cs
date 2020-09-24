@@ -15,7 +15,7 @@ namespace IoCTest
 
         public virtual string Do(string txt) 
         { 
-            return messageDumper.Do(ToString() + " called: " + txt); 
+            return messageDumper.BaseDo(ToString() + " called: " + txt); 
         }
     }
 }

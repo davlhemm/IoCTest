@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using IoCWebAppAspCore.Models;
 using IoCTest;
 using Microsoft.Extensions.Configuration;
+using System.Collections;
+using System.Reflection;
 
 namespace IoCWebAppAspCore.Controllers
 {
@@ -26,7 +28,7 @@ namespace IoCWebAppAspCore.Controllers
 
         public IActionResult Index()
         {
-            string aTest = _base.Do("In Index of HomeController");
+            string aTest = _base.BaseDo("In Index of HomeController");
             _logger.LogInformation(aTest);
 
             var _iocOptions = new IoCOptions();
@@ -35,7 +37,6 @@ namespace IoCWebAppAspCore.Controllers
             ViewData["Title"] = _iocOptions.Title;
 
             return View();
-            //return Content($"Title: {_iocOptions.Title}");
         }
 
         public IActionResult Privacy()
@@ -44,8 +45,23 @@ namespace IoCWebAppAspCore.Controllers
             _config.GetSection(IoCOptions.IoC).Bind(_iocOptions);
 
             ViewData["Title"] = _iocOptions.Title;
-            ViewData["Privacy"] = _base.Do("Privacy");
+            ViewData["Privacy"] = _base.BaseDo(_iocOptions.Privacy); //_base.BaseDo("Privacy");
 
+            return View();
+        }
+
+        public IActionResult Test()
+        {
+            var _iocOptions = new IoCOptions();
+            _config.GetSection(IoCOptions.IoC).Bind(_iocOptions);
+
+            IEnumerable<PropertyInfo> propInfos =_iocOptions.GetType().GetRuntimeProperties();
+
+            foreach(var theProp in propInfos)
+            {
+                ViewData[theProp.Name] = _base.BaseDo(theProp.GetValue(_iocOptions).ToString());
+            }
+            
             return View();
         }
 

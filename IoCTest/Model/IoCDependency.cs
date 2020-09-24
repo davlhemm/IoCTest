@@ -2,19 +2,14 @@
 
 namespace IoCTest
 {
-    public interface IBase 
-    {
-        string Do(string txt);
-    }
-
     public abstract class Base : IBase
     {
-        public abstract string Do(string txt);
+        public abstract string BaseDo(string txt);
     }
 
     public class Derived : Base
     {
-        public override string Do(string txt)
+        public override string BaseDo(string txt)
         {
             return ToString() + ": " + txt;
         }

@@ -19,7 +19,7 @@ namespace XUnitIoCTest
             List<Type> nest1Types = thing1.GetType().GetNestedTypes().ToList();
             FurtherDerived thing2 = new FurtherDerived();
             List<Type> nest2Types = thing2.GetType().GetNestedTypes().ToList();
-            string theString = thing1.Do("Test1 test");
+            string theString = thing1.BaseDo("Test1 test");
         }
     }
 }
