@@ -12,7 +12,7 @@ namespace IoCTest
         public abstract string Do(string txt);
     }
 
-    public class MessageDumper : Base
+    public class Derived : Base
     {
         public override string Do(string txt)
         {
@@ -23,7 +23,7 @@ namespace IoCTest
         public virtual void ParentClassDoesKnow() { }
     }
 
-    public class OtherMessageDumper : MessageDumper 
+    public class FurtherDerived : Derived 
     {
         public virtual void ParentClassDontKnow() { }
     }

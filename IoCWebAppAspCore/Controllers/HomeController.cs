@@ -44,6 +44,7 @@ namespace IoCWebAppAspCore.Controllers
             _config.GetSection(IoCOptions.IoC).Bind(_iocOptions);
 
             ViewData["Title"] = _iocOptions.Title;
+            ViewData["Privacy"] = _base.Do("Privacy");
 
             return View();
         }
