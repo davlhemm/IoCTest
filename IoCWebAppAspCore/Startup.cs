@@ -27,7 +27,8 @@ namespace IoCWebAppAspCore
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IBase, FurtherDerived>();
-            services.Configure<IoCOptions>(Configuration);
+            services.Configure<OtherOptions>(Configuration);
+            services.Configure<BaseOptions>(Configuration);
 
             services.AddControllersWithViews();
         }

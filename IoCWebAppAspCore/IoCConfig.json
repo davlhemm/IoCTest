@@ -1,7 +1,13 @@
 {
-  "IoC": {
+  "Base": {
     "Title": "IoC Demonstation W/Config",
     "Name": "David L. Hemmenway",
-    "Privacy":  "Privacy Data"
+    "Privacy": "Privacy Data"
+  },
+  "Other": {
+    "Title": "IoC Demonstation W/Config",
+    "Name": "David L. Hemmenway",
+    "Privacy": "Privacy Data",
+    "Item": "Test Item"
   }
 }
