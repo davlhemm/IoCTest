@@ -6,4 +6,5 @@ namespace IoCTest
     {
         string BaseDo(string txt);
     }
+
 }

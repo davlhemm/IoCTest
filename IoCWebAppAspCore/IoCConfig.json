@@ -9,5 +9,12 @@
     "Name": "David L. Hemmenway",
     "Privacy": "Privacy Data",
     "Item": "Test Item"
+  },
+  "Settings": {
+    "Title": "IoC Demonstation W/Config",
+    "Name": "David L. Hemmenway",
+    "Privacy": "Privacy Data",
+    "Item": "Item",
+    "Test":  "Test"
   }
 }

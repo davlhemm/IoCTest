@@ -14,3 +14,10 @@ public class OtherOptions : BaseOptions
 
     public string Item { get; set; }
 }
+
+public class SettingsOptions : OtherOptions
+{
+    public const string Settings = "Settings";
+
+    public string Test { get; set; }
+}

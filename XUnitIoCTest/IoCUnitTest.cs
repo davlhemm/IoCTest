@@ -3,6 +3,7 @@ using Xunit;
 using IoCTest;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace XUnitIoCTest
 {
@@ -22,4 +23,19 @@ namespace XUnitIoCTest
             string theString = thing1.BaseDo("Test1 test");
         }
     }
+
+
+    public class StratTester
+    {
+        [Fact]
+        public void StratTest()
+        {
+            StratContext aStrat = new StratContext(new ConcreteStrategyA());
+            StratContext bStrat = new StratContext(new ConcreteStrategyB());
+            
+            aStrat.DoStrat();
+            bStrat.DoStrat();
+        }
+    }
+
 }

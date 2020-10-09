@@ -13,13 +13,13 @@ using System.Reflection;
 
 namespace IoCWebAppAspCore.Controllers
 {
-    public class HomeController : Controller
+    public class SettingsController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<SettingsController> _logger;
         private readonly IConfiguration _config;
         private readonly IBase _base;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, IBase baseThing)
+        public SettingsController(ILogger<SettingsController> logger, IConfiguration config, IBase baseThing)
         {
             _logger = logger;
             _config = config;
@@ -28,31 +28,8 @@ namespace IoCWebAppAspCore.Controllers
 
         public IActionResult Index()
         {
-            string aTest = _base.BaseDo("In Index of HomeController");
-            _logger.LogInformation(aTest);
-
-            var _iocOptions = new BaseOptions();
-            _config.GetSection(BaseOptions.Base).Bind(_iocOptions);
-
-            ViewData["Title"] = _iocOptions.Title;
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            var _iocOptions = new BaseOptions();
-            _config.GetSection(BaseOptions.Base).Bind(_iocOptions);
-
-            ViewDataPopulator(_iocOptions);
-
-            return View();
-        }
-
-        public IActionResult Test()
-        {
-            var _iocOptions = new OtherOptions();
-            _config.GetSection(OtherOptions.Other).Bind(_iocOptions);
+            var _iocOptions = new SettingsOptions();
+            _config.GetSection(SettingsOptions.Settings).Bind(_iocOptions);
 
             ViewDataPopulator(_iocOptions);
 
