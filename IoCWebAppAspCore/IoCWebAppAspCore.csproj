@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.0-rc.2.20473.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IoCTest\IoCTest.csproj" />
   </ItemGroup>
 

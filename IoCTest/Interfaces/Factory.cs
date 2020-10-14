@@ -13,16 +13,14 @@ namespace IoCTest
     public class FactoryItem<T> : IFactoryItem<T>
         where T : new()
     {
-        public void DoThing()
-        {
-            Debug.WriteLine(ToString());
-        }
-
         public T GetFactoryItem()
         {
             return new T();
         }
+
+        public void DoThing()
+        {
+            Debug.WriteLine(ToString());
+        }
     }
-
-
 }

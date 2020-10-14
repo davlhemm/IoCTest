@@ -59,6 +59,11 @@ namespace IoCWebAppAspCore.Controllers
             return View();
         }
 
+        public IActionResult Other()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Dump all property values from json config into ViewData per-property name
         /// </summary>
