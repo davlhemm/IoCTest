@@ -15,6 +15,19 @@
     "Name": "David L. Hemmenway",
     "Privacy": "Privacy Data",
     "Item": "Item",
-    "Test":  "Test"
+    "Test": "Test"
+  },
+  "Testing": {
+    "Title": "IoC Demonstation W/Config",
+    "Name": "David L. Hemmenway",
+    "Privacy": "Privacy Data",
+    "Item": "Item",
+    "Test": "Test",
+    "Dummy1": "1",
+    "Dummy2": "2",
+    "Dummy3": "3",
+    "Dummy4": "4",
+    "Dummy5": "5"
+
   }
 }

@@ -31,52 +31,34 @@ namespace IoCWebAppAspCore.Controllers
             string aTest = _base.BaseDo("In Index of HomeController");
             _logger.LogInformation(aTest);
 
-            var _iocOptions = new BaseOptions();
-            _config.GetSection(BaseOptions.Base).Bind(_iocOptions);
-
-            ViewData["Title"] = _iocOptions.Title;
-
+            var _iocOptions = ControllerHelper.OptionBinder<BaseOptions>(BaseOptions.Base, _config);
+            ControllerHelper.ViewDataPopulator(_iocOptions, _base, ViewData);
+            
             return View();
         }
 
         public IActionResult Privacy()
         {
-            var _iocOptions = new BaseOptions();
-            _config.GetSection(BaseOptions.Base).Bind(_iocOptions);
-
-            ViewDataPopulator(_iocOptions);
+            var _iocOptions = ControllerHelper.OptionBinder<BaseOptions>(BaseOptions.Base, _config);
+            ControllerHelper.ViewDataPopulator(_iocOptions, _base, ViewData);
 
             return View();
         }
 
         public IActionResult Test()
         {
-            var _iocOptions = new OtherOptions();
-            _config.GetSection(OtherOptions.Other).Bind(_iocOptions);
-
-            ViewDataPopulator(_iocOptions);
+            var _iocOptions = ControllerHelper.OptionBinder<OtherOptions>(OtherOptions.Other, _config);
+            ControllerHelper.ViewDataPopulator(_iocOptions, _base, ViewData);
 
             return View();
         }
 
         public IActionResult Other()
         {
+            var _iocOptions = ControllerHelper.OptionBinder<TestingOptions>(TestingOptions.Testing, _config);
+            ControllerHelper.ViewDataPopulator(_iocOptions, _base, ViewData);
+
             return View();
-        }
-
-        /// <summary>
-        /// Dump all property values from json config into ViewData per-property name
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="options"></param>
-        public void ViewDataPopulator<T>(T options)
-        {
-            IEnumerable<PropertyInfo> propInfos = options.GetType().GetRuntimeProperties();
-
-            foreach (var theProp in propInfos)
-            {
-                ViewData[theProp.Name] = _base.BaseDo(theProp.GetValue(options).ToString());
-            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
