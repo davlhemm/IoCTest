@@ -50,7 +50,7 @@ namespace IoCWebAppAspCore.Controllers
             var _iocOptions = _config.OptionBinder<OtherOptions>(OtherOptions.Other);
             _iocOptions.ViewDataPopulator(_base, ViewData);
 
-            return View();
+            return View(new TestViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public IActionResult Other()

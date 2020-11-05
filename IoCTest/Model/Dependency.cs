@@ -21,5 +21,10 @@ namespace IoCTest
     public class FurtherDerived : Derived 
     {
         public virtual void ParentClassDontKnow() { }
+
+        public override string BaseDo(string txt)
+        {
+            return ToString() + ": " + txt + "\nFurther Derived Decoration";
+        }
     }
 }
