@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace XUnitIoCTest
 {
@@ -25,28 +26,40 @@ namespace XUnitIoCTest
         }
 
         [Fact]
-        public void ExplicitDependencyTest()
+        public void LoggerDependencyTest()
         {
-            //Logger log = new Logger(new StreamWriter(new FileStream());
-            Logger log = new FileLogger("LogFile.txt", Environment.SpecialFolder.Desktop);
-            log.Log("LOG DATA");
+            Logger log = new FileLogger("LogFile.txt");
+            log.Log("First line");
+            log.Log("Second line");
+
+            Logger logTwo = new FileLogger("AnotherLog.txt");
+            logTwo.Log("Line");
         }
 
         public class FileLogger : Logger
         {
-            public readonly string _logFile;
+            private readonly string _logFile;
 
-            protected FileLogger() { }
+            protected FileLogger() { throw new NotImplementedException("Can't create logger here..."); }
 
             public FileLogger(string logFile)
                 : base(new StreamWriter
-                      (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), logFile))) 
+                      (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                        logFile))) 
             {
                 _logFile = logFile;
             }
 
             public FileLogger(string logFile, Environment.SpecialFolder specialFolder)
-                : base(new StreamWriter(Path.Combine(Environment.GetFolderPath(specialFolder), logFile)))
+                : base(new StreamWriter
+                      (Path.Combine(Environment.GetFolderPath(specialFolder), 
+                        logFile)))
+            {
+                _logFile = logFile;
+            }
+
+            public FileLogger(string logFile, TextWriter writer)
+                : base(writer)
             {
                 _logFile = logFile;
             }
@@ -71,12 +84,12 @@ namespace XUnitIoCTest
                 _writer = writer;
             }
 
-            public void Log(string message)
+            public virtual void Log(string message)
             {
                 //Don't handle writer disposal here...
                 _writer.WriteLine(message);
                 _writer.Flush();
-                _writer.Close();
+                //_writer.Close();
             }
         }
     }
@@ -103,6 +116,15 @@ namespace XUnitIoCTest
         {
             DelegateInvoker<int> invoker = new DelegateInvoker<int>();
             invoker.BuildDynamic();
+        }
+
+        [Fact]
+        public void DynDictTest()
+        {
+            Dictionary<string, object> testDict = new Dictionary<string, object>();
+            testDict.Add("1", 1);
+            object test;
+            testDict.TryGetValue("1", out test);
         }
     }
 }
