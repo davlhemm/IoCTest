@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using IoCTest.Model;
+using IoCTest.Interfaces;
 
 namespace XUnitIoCTest
 {
@@ -28,11 +30,11 @@ namespace XUnitIoCTest
         [Fact]
         public void LoggerDependencyTest()
         {
-            Logger log = new FileLogger("LogFile.txt");
+            ILogger log = new FileLogger("LogFile.txt");
             log.Log("First line");
             log.Log("Second line");
 
-            Logger logTwo = new FileLogger("AnotherLog.txt");
+            ILogger logTwo = new FileLogger("AnotherLog.txt");
             logTwo.Log("Line");
         }
 
@@ -40,20 +42,23 @@ namespace XUnitIoCTest
         {
             private readonly string _logFile;
 
-            protected FileLogger() { throw new NotImplementedException("Can't create logger here..."); }
+            protected FileLogger()
+            {
+                throw new NotImplementedException("Can't create logger here...");
+            }
 
             public FileLogger(string logFile)
                 : base(new StreamWriter
-                      (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
-                        logFile))) 
+                (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    logFile)))
             {
                 _logFile = logFile;
             }
 
             public FileLogger(string logFile, Environment.SpecialFolder specialFolder)
                 : base(new StreamWriter
-                      (Path.Combine(Environment.GetFolderPath(specialFolder), 
-                        logFile)))
+                (Path.Combine(Environment.GetFolderPath(specialFolder),
+                    logFile)))
             {
                 _logFile = logFile;
             }
@@ -65,66 +70,37 @@ namespace XUnitIoCTest
             }
         }
 
-        public interface ILogger 
+        public class StratTester
         {
-            void Log(string message); 
-        }
-
-        /// <summary>
-        /// Requires a writer, decoupled but not required by interface...
-        /// </summary>
-        public abstract class Logger : ILogger
-        {
-            private readonly TextWriter _writer;
-
-            protected Logger() { throw new NotImplementedException("Can't create logger here..."); }
-
-            protected Logger(TextWriter writer)
+            [Fact]
+            public void StratTest()
             {
-                _writer = writer;
-            }
+                StratContext aStrat = new StratContext(new ConcreteStrategyA());
+                StratContext bStrat = new StratContext(new ConcreteStrategyB());
 
-            public virtual void Log(string message)
-            {
-                //Don't handle writer disposal here...
-                _writer.WriteLine(message);
-                _writer.Flush();
-                //_writer.Close();
+                aStrat.DoStrat();
+                bStrat.DoStrat();
             }
         }
-    }
 
 
-    public class StratTester
-    {
-        [Fact]
-        public void StratTest()
+        public class DynamicTester
         {
-            StratContext aStrat = new StratContext(new ConcreteStrategyA());
-            StratContext bStrat = new StratContext(new ConcreteStrategyB());
-            
-            aStrat.DoStrat();
-            bStrat.DoStrat();
-        }
-    }
+            [Fact]
+            public void DynamicTest()
+            {
+                DelegateInvoker<int> invoker = new DelegateInvoker<int>();
+                invoker.BuildDynamic();
+            }
 
-
-    public class DynamicTester
-    {
-        [Fact]
-        public void DynamicTest()
-        {
-            DelegateInvoker<int> invoker = new DelegateInvoker<int>();
-            invoker.BuildDynamic();
-        }
-
-        [Fact]
-        public void DynDictTest()
-        {
-            Dictionary<string, object> testDict = new Dictionary<string, object>();
-            testDict.Add("1", 1);
-            object test;
-            testDict.TryGetValue("1", out test);
+            [Fact]
+            public void DynDictTest()
+            {
+                Dictionary<string, object> testDict = new Dictionary<string, object>();
+                testDict.Add("1", 1);
+                object test;
+                testDict.TryGetValue("1", out test);
+            }
         }
     }
 }

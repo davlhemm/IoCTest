@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using IoCTest;
+using IoCTest.Model;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace IoCWebAppAspCore

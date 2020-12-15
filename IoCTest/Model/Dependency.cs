@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IoCTest
+﻿namespace IoCTest.Model
 {
     public abstract class Base : IBase
     {
