@@ -8,7 +8,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using IoCTest.Model;
 using IoCTest.Interfaces;
-using IoCTest.Processes;
 
 namespace XUnitIoCTest
 {
@@ -31,21 +30,60 @@ namespace XUnitIoCTest
         [Fact]
         public void LoggerDependencyTest()
         {
+<<<<<<< Updated upstream
             ILogger log = new FileLogger("LogFile.txt");
             log.Log("First line");
             log.Log("Second line");
 
             ILogger logTwo = new FileLogger("AnotherLog.txt");
             logTwo.Log("Line");
+=======
+            //Logger log = new Logger(new StreamWriter(new FileStream());
+
+            string logFileName = "LogFile.txt";
+            Environment.SpecialFolder baseFolder = Environment.SpecialFolder.Desktop;
+
+            Logger log = new FileLogger(logFileName, baseFolder);
+            log.Log("LOG DATA");
+>>>>>>> Stashed changes
         }
 
-        [Fact]
-        public void TestFileImport()
+        public class FileLogger : Logger
         {
-            FileImportProcess importProcess = new FileImportProcess("C:\\RDS", ".xlsx");
-            IList<string> test = importProcess.GetImportFiles();
+            private readonly string _logFile;
+
+            protected FileLogger()
+            {
+                throw new NotImplementedException("Can't create logger here...");
+            }
+
+            /// <summary>
+            /// My documents default location for file.
+            /// </summary>
+            /// <param name="logFile"></param>
+            public FileLogger(string logFile)
+                : base(new StreamWriter
+                (Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    logFile)))
+            {
+                _logFile = logFile;
+            }
+
+            public FileLogger(string logFile, Environment.SpecialFolder specialFolder)
+                : base(new StreamWriter
+                (Path.Combine(Environment.GetFolderPath(specialFolder),
+                    logFile)))
+            {
+                _logFile = logFile;
+            }
+
+            public FileLogger(string logFile, TextWriter writer)
+                : base(writer)
+            {
+                _logFile = logFile;
+            }
         }
-        
+
         public class StratTester
         {
             [Fact]
