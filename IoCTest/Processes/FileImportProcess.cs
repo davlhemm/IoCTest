@@ -12,7 +12,7 @@ namespace IoCTest.Processes
         private readonly string _extension;
         private readonly SearchOption _searchOption;
         
-        private FileImporter Importer { get; set; }
+        //private FileImporter Importer { get; set; }
 
         private FileImportProcess() { }
         
@@ -37,11 +37,12 @@ namespace IoCTest.Processes
         /// <returns></returns>
         public IList<string> GetImportFiles()
         {
-            IEnumerable<string> files = Directory.EnumerateFiles(_baseImportPath, "*"+_extension);
+            IEnumerable<string> files = Directory.EnumerateFiles(_baseImportPath, "*"+_extension, _searchOption);
             return files.ToList();
         }
     }
 
+    
     public class FileImporter : IFileImporter
     {       
         public void Import()

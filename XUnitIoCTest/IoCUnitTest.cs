@@ -43,7 +43,20 @@ namespace XUnitIoCTest
         public void TestFileImport()
         {
             FileImportProcess importProcess = new FileImportProcess("C:\\RDS", ".xlsx");
-            IList<string> test = importProcess.GetImportFiles();
+            IList<string> testFiles = importProcess.GetImportFiles();
+
+            foreach (var file in testFiles)
+            {
+                List<LineListWriterInfo> linelistWrites = new List<LineListWriterInfo>
+                {
+                    new LineListWriterInfo()
+                    {
+                        Name = "Name",
+                        Format = "{0}",
+                        Index = new List<string>() { "1" }
+                    }
+                };
+            }
         }
         
         public class StratTester
