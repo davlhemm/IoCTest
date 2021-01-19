@@ -1,6 +1,14 @@
 ﻿namespace IoCTest.Processes
 {
+    /// <summary>
+    /// Given a continuation classifier, input, and configurable items, output an altered version
+    /// </summary>
+    public class ContinuationAlterProcess
+    {
 
+    }
+    
+    //TODO: make sure the proposed changes to continuations are decoupled from the actual write to the DB entry
     /// <summary>
     /// Shortens the "Continued on DWG" text thats in the actual model.
     /// </summary>
@@ -171,6 +179,7 @@
     //                        }
     //                    }
 
+    //TODO: Homogenize these writes/commits
     //                    t.Commit();
     //                }
     //            }

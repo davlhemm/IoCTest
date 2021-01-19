@@ -106,9 +106,9 @@ namespace IoCTest.Processes
                                 $"The worksheet \"{excelInfo.SheetName}\" is empty. Present sheets are{existingSheets}");
                         }
                     }
-                    catch (System.Exception e)
+                    catch (System.Exception)
                     {
-                        throw e;
+                        throw;
                     }
                 }
             }

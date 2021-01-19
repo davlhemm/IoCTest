@@ -15,6 +15,13 @@ namespace XUnitIoCTest
     public class IoCUnitTest
     {
         [Fact]
+        public void TestModeCreate()
+        {
+            IMode aMode = ModeFactoryService.CreateByMode(FactoryMode.First);
+            string theType = aMode.GetType().AssemblyQualifiedName;
+        }
+
+        [Fact]
         public void Test1()
         {
             IBase aBase = new Derived();
@@ -89,6 +96,16 @@ namespace XUnitIoCTest
                 testDict.Add("1", 1);
                 object test;
                 testDict.TryGetValue("1", out test);
+            }
+        }
+
+        public class FactoryTest
+        {
+            [Fact]
+            public void TestModeCreate()
+            {
+                IMode aMode = ModeFactoryService.CreateByMode(FactoryMode.First);
+                string theType = aMode.GetType().AssemblyQualifiedName;
             }
         }
     }
