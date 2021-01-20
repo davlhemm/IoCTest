@@ -2,8 +2,13 @@
 using System;
 using System.IO;
 
-namespace IoCTest.Model 
-{ 
+namespace IoCTest.Model
+{
+    public interface ILogger
+    {
+        void Log(string message);
+    }
+
     /// <summary>
     /// Requires a writer, decoupled but not required by interface...
     /// </summary>

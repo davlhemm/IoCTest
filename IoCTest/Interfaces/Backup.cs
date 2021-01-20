@@ -2,23 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Zip.Compression;
 
-namespace NewLLDP.Abstracts
+namespace IoCTest.Interfaces
 {
-    public class BackupService : IDisposable
+    public class BackupService : IBackup, IDisposable
     {
-        private readonly IBackup _backupTool;
+        private readonly IBackup _backupStrategy;
 
-        public BackupService(IBackup backupTool)
+        public BackupService(IBackup backupStrategy)
         {
-            _backupTool = backupTool;
+            _backupStrategy = backupStrategy;
         }
+
+        //public void SetBackupStrat(IBackup backupStrategy)
+        //{
+        //    _backupStrategy = backupStrategy;
+        //}
         
-        public void Dispose()
+        public void Dispose() { }
+
+        public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
         {
+            _backupStrategy.MakeBackup(listOfFiles, outDirectory, outFileName);
         }
+
+        public void MakeBackup(string inDirectory, string outDirectory, string outFileName)
+        {
+            _backupStrategy.MakeBackup(inDirectory, outDirectory, outFileName);
+        }
+
+        //public string GetDirectory(string whereTo)
+        //{
+        //    FolderBrowserDialog dialog = new FolderBrowserDialog { Description = whereTo };
+        //    DialogResult result = dialog.ShowDialog();
+
+        //    return GetDirectory(dialog.SelectedPath, result);
+        //}
+
+        //public string GetDirectory(string selectedPath, DialogResult result)
+        //{
+        //    return result == DialogResult.OK ? selectedPath : string.Empty;
+        //}
     }
 
     public class ZipBackup : IBackup
@@ -33,10 +60,10 @@ namespace NewLLDP.Abstracts
         /// Method that compress all the files inside a folder (non-recursive) into a zip file.
         /// </summary>
         /// <param name="files"></param>
-        /// <param name="outputFilePath"></param>
-        /// <param name="outFileName"></param>
+        /// <param name="outDirectory"></param>
+        /// <param name="outFileName">Used as explicit name for strategies that use single file and an extension for those that do per-file.</param>
         /// <param name="compressionLevel"></param>
-        private static void CompressDirectory(IList<string> files, string outputFilePath, string outFileName, int compressionLevel = 9)
+        private static void CompressDirectory(IList<string> files, string outDirectory, string outFileName, int compressionLevel = 9)
         {
             try
             {
@@ -50,7 +77,7 @@ namespace NewLLDP.Abstracts
                 //                 $"{".zip"}";
 
                 //Define output stream based on full-path filename
-                using (ZipOutputStream outputStream = new ZipOutputStream(File.Create(outputFilePath + "\\" + outFileName))) //zipName)))
+                using (ZipOutputStream outputStream = new ZipOutputStream(File.Create(outDirectory + "\\" + outFileName))) //zipName)))
                 {
                     // Define the compression level
                     // 0 - store only to 9 - means best compression
@@ -113,9 +140,12 @@ namespace NewLLDP.Abstracts
     {
         public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
         {
-            foreach (string item in listOfFiles)
+            foreach (string file in listOfFiles)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(file);
+                //In Basic backup, append outFileName as extension for creating per-file backups
+                string theFileXpCompat = Path.GetFileName(file);
+                File.Copy(file, outDirectory + "\\" + theFileXpCompat + outFileName, true);
             }
         }
     }
@@ -123,6 +153,13 @@ namespace NewLLDP.Abstracts
     public interface IBackup
     {
         void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName);
+
+        //TODO: Explicit interface implementation (C# 8)
+        void MakeBackup(string inDirectory, string outDirectory, string outFileName)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(inDirectory);
+            MakeBackup(dirInfo.GetFiles().Select(x => x.FullName).ToList(),outDirectory, outFileName);
+        }
     }
 
 

@@ -10,10 +10,33 @@ using IoCTest.Model;
 using IoCTest.Interfaces;
 using IoCTest.Processes;
 
+using System.Windows;
+
 namespace XUnitIoCTest
 {
     public class IoCUnitTest
     {
+        [Fact]
+        public void TestBackup()
+        {
+            string basePath = @"C:\Users\dhemmenway\Documents\LLDataPrcessor\Test\";
+            string extension = @"*.DWG";
+            IList<string> files = Directory.GetFiles(
+                basePath,
+                extension,
+                SearchOption.AllDirectories);
+            string backExt = ".bak";
+
+            using (BackupService backup = new BackupService(new BasicBackup()))
+            {
+                //backup.MakeBackup(basePath, basePath, backExt);
+            }
+            using (BackupService backup = new BackupService(new ZipBackup()))
+            {
+                backup.MakeBackup(files, basePath, "TestThing.zip");
+            }
+        }
+
         [Fact]
         public void TestModeCreate()
         {
@@ -22,7 +45,7 @@ namespace XUnitIoCTest
         }
 
         [Fact]
-        public void Test1()
+        public void TestDerived()
         {
             IBase aBase = new Derived();
             DerivedModel aModel = new DerivedModel(aBase);
@@ -96,16 +119,6 @@ namespace XUnitIoCTest
                 testDict.Add("1", 1);
                 object test;
                 testDict.TryGetValue("1", out test);
-            }
-        }
-
-        public class FactoryTest
-        {
-            [Fact]
-            public void TestModeCreate()
-            {
-                IMode aMode = ModeFactoryService.CreateByMode(FactoryMode.First);
-                string theType = aMode.GetType().AssemblyQualifiedName;
             }
         }
     }
