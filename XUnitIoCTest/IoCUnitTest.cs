@@ -20,20 +20,23 @@ namespace XUnitIoCTest
         public void TestBackup()
         {
             string basePath = @"C:\Users\dhemmenway\Documents\LLDataPrcessor\Test\";
-            string extension = @"*.DWG";
+            string searchPattern = @"*.DWG";
             IList<string> files = Directory.GetFiles(
                 basePath,
-                extension,
+                searchPattern,
                 SearchOption.AllDirectories);
+            string zipName = $"{"LLDPDwgBackup"}" +
+                             DateTime.Now.ToString("yyyyMMdd-HHmmss") +
+                             $"{".zip"}";
             string backExt = ".bak";
 
             using (BackupService backup = new BackupService(new BasicBackup()))
             {
-                //backup.MakeBackup(basePath, basePath, backExt);
+                backup.MakeBackup(basePath, basePath, DateTime.Now.ToString("yyyyMMdd-HHmmss") + backExt);
             }
             using (BackupService backup = new BackupService(new ZipBackup()))
             {
-                backup.MakeBackup(files, basePath, "TestThing.zip");
+                backup.MakeBackup(files, basePath, zipName);
             }
         }
 

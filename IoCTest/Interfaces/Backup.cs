@@ -56,6 +56,14 @@ namespace IoCTest.Interfaces
             CompressDirectory(listOfFiles, outDirectory, outFileName);
         }
 
+#if !NET5_0
+        public void MakeBackup(string inDirectory, string outDirectory, string outFileName)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(inDirectory);
+            MakeBackup(dirInfo.GetFiles().Select(x => x.FullName).ToList(), outDirectory, outFileName);
+        }
+#endif
+
         /// <summary>
         /// Method that compress all the files inside a folder (non-recursive) into a zip file.
         /// </summary>
@@ -70,12 +78,6 @@ namespace IoCTest.Interfaces
                 // 'using' statements guarantee the stream is closed properly which is a big source
                 // of problems otherwise. Exception safe.
 
-                //Zip is a single location/file so append default naming scheme
-                //Done: TODO: Define naming schema elsewhere this is big dumb and decoupled from helper lib
-                //string zipName = $"{"LLDPDwgBackup"}" +
-                //                 DateTime.Now.ToString("yyyyMMdd-HHmmss") +
-                //                 $"{".zip"}";
-
                 //Define output stream based on full-path filename
                 using (ZipOutputStream outputStream = new ZipOutputStream(File.Create(outDirectory + "\\" + outFileName))) //zipName)))
                 {
@@ -87,7 +89,6 @@ namespace IoCTest.Interfaces
 
                     foreach (var file in files)
                     {
-
                         // Using GetFileName makes the result compatible with XP
                         // as the resulting path is not absolute.
                         ZipEntry entry = new ZipEntry(Path.GetFileName(file));
@@ -148,6 +149,14 @@ namespace IoCTest.Interfaces
                 File.Copy(file, outDirectory + "\\" + theFileXpCompat + outFileName, true);
             }
         }
+
+#if !NET5_0
+        public void MakeBackup(string inDirectory, string outDirectory, string outFileName)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(inDirectory);
+            MakeBackup(dirInfo.GetFiles().Select(x => x.FullName).ToList(), outDirectory, outFileName);
+        }
+#endif
     }
 
     public interface IBackup
@@ -155,12 +164,14 @@ namespace IoCTest.Interfaces
         void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName);
 
         //TODO: Explicit interface implementation (C# 8)
+#if NET5_0     //Use Default if we can
         void MakeBackup(string inDirectory, string outDirectory, string outFileName)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(inDirectory);
-            MakeBackup(dirInfo.GetFiles().Select(x => x.FullName).ToList(),outDirectory, outFileName);
+            MakeBackup(dirInfo.GetFiles().Select(x => x.FullName).ToList(), outDirectory, outFileName);
         }
+#else
+        void MakeBackup(string inDirectory, string outDirectory, string outFileName);
+#endif
     }
-
-
 }
