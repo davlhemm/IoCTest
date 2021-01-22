@@ -28,7 +28,7 @@ namespace XUnitIoCTest
             string zipName = $"{"LLDPDwgBackup"}" +
                              DateTime.Now.ToString("yyyyMMdd-HHmmss") +
                              $"{".zip"}";
-            string backExt = ".bak";
+            string backExt = DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".bak";
 
             using (BackupService backup = new BackupService(new BasicBackup()))
             {

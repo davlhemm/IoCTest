@@ -12,11 +12,19 @@ namespace IoCTest.Interfaces
     {
         private readonly IBackup _backupStrategy;
 
+        private BackupService()
+        {
+            throw new MethodAccessException("Can't make backup service w/no backup strategy.");
+        }
+
         public BackupService(IBackup backupStrategy)
         {
             _backupStrategy = backupStrategy;
         }
 
+        /// <summary>
+        /// Context/strategy switch
+        /// </summary>
         //public void SetBackupStrat(IBackup backupStrategy)
         //{
         //    _backupStrategy = backupStrategy;
@@ -137,6 +145,10 @@ namespace IoCTest.Interfaces
         }
     }
 
+    /// <summary>
+    /// Per-file backup
+    /// TODO: Possibly make this base for any per-file strategy...probably should be distinct
+    /// </summary>
     public class BasicBackup : IBackup
     {
         public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
