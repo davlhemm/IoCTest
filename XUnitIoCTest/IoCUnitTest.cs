@@ -32,7 +32,7 @@ namespace XUnitIoCTest
 
             using (BackupService backup = new BackupService(new BasicBackup()))
             {
-                backup.MakeBackup(basePath, basePath, DateTime.Now.ToString("yyyyMMdd-HHmmss") + backExt);
+                backup.MakeBackup(basePath, basePath, backExt);
             }
             using (BackupService backup = new BackupService(new ZipBackup()))
             {
