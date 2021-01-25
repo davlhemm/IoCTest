@@ -25,10 +25,11 @@ namespace XUnitIoCTest
                 basePath,
                 searchPattern,
                 SearchOption.AllDirectories);
+            string dateStringFormat = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             string zipName = $"{"LLDPDwgBackup"}" +
-                             DateTime.Now.ToString("yyyyMMdd-HHmmss") +
+                             dateStringFormat +
                              $"{".zip"}";
-            string backExt = DateTime.Now.ToString("yyyyMMdd-HHmmss") + ".bak";
+            string backExt = dateStringFormat + ".bak";
 
             using (BackupService backup = new BackupService(new BasicBackup()))
             {

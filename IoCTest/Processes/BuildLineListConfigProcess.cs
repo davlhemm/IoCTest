@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using static IoCTest.Processes.LineListConfig;
 
 namespace  IoCTest.Processes
 {
@@ -14,9 +13,13 @@ namespace  IoCTest.Processes
 
     }
 
-    public class LineListConfig
+    public class LineListConfig<T>: ILineListConfig<T>
     {
 
+    }
+
+    public interface ILineListConfig<T>
+    {
     }
 
     //TODO: Support composites

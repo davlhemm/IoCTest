@@ -46,14 +46,14 @@ namespace IoCTest.Processes
                                 // Each column of the list configuration
                                 foreach (LineListWriterInfo col in list)
                                 {
-                                    // If we have indeces to grab
+                                    // If we have indices to grab
                                     if (col.Index.Count != 0)
                                     {
                                         if (col.Index.Count > 1)
                                         {
                                             List<string> values = new List<string>();
 
-                                            // Walk down and populate required indeces for this column
+                                            // Walk down and populate required indices for this column
                                             foreach (string s in col.Index)
                                             {
                                                 Int32.TryParse(s, out var number);
