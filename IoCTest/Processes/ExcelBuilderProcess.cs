@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using IoCTest.Helpers;
 using OfficeOpenXml;
-using static IoCTest.Processes.LineListConfig;
 
 namespace IoCTest.Processes
 {

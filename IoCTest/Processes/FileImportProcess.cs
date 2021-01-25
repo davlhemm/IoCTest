@@ -6,6 +6,10 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace IoCTest.Processes
 {
+    /// <summary>
+    /// <para>File Import Process should be what's related to individual file imports...</para>
+    /// <remarks>NOTE: Replace with a builder/factory for file importers</remarks>
+    /// </summary>
     public class FileImportProcess
     {
         private readonly string _baseImportPath;

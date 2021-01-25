@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using IoCTest.Model;
 using IoCTest.Interfaces;
 using IoCTest.Processes;
@@ -16,6 +17,41 @@ namespace XUnitIoCTest
 {
     public class IoCUnitTest
     {
+        [Fact]
+        public void TestExcelImportBuilder()
+        {
+            var itemList = new List<ITestItem>()
+            { 
+                new TestItem(){ ProposedKey = "Key1", RawValue = "Value", StoredType = typeof(string)},
+                new TestItem(){ ProposedKey = "Key1", RawValue = "Value2", StoredType = typeof(string)},
+                new TestItem(){ ProposedKey = "Key2", RawValue = "Value3", StoredType = typeof(string)},
+                new TestItem(){ ProposedKey = "Key3", RawValue = "Value4", StoredType = typeof(string)}
+            };
+
+            //Test LINQ distinctness
+            var itemListSifted = itemList.GroupBy(x => x.ProposedKey,x=>x).Select(s=>s.First()).ToList();
+
+            //Create a dictionary out of obvious key, keep item intact as value
+            var itemDict = itemListSifted.Distinct().ToDictionary(x => x.ProposedKey, item => item);
+        }
+
+        /// <summary>
+        /// Stupid POCO for dict testing
+        /// </summary>
+        internal class TestItem : ITestItem
+        {
+            public string ProposedKey { get; set; }
+            public string RawValue { get; set; }
+            public Type StoredType { get; set; }
+        }
+
+        internal interface ITestItem
+        {
+            string ProposedKey { get; }
+            string RawValue { get; }
+            Type StoredType { get; }
+        }
+
         [Fact]
         public void TestBackup()
         {
