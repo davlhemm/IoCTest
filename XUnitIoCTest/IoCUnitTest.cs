@@ -23,7 +23,9 @@ namespace XUnitIoCTest
             //Create delegate for creating Cat...
             MyItemDescriptor itemDescriptor = new MyItemDescriptor();
             itemDescriptor.Type = MyItemType.Cat;
-            itemDescriptor.Creator = new MyItemCreationDelegate();
+
+            //TODO: Create cat creator delegate
+//            itemDescriptor.Creator = new MyItemCreationDelegate();
 
             MyItemFactory factory = new MyItemFactory(new List<MyItemDescriptor>());
             IMyItem item = factory.Create(MyItemType.Cat);
@@ -34,7 +36,7 @@ namespace XUnitIoCTest
         {
             var itemList = new List<ITestItem>()
             { 
-                new TestItem(){ ProposedKey = "Key1", RawValue = "Value", StoredType = typeof(string)},
+                new TestItem(){ ProposedKey = "Key1", RawValue = "Value1", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key1", RawValue = "Value2", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key2", RawValue = "Value3", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key3", RawValue = "Value4", StoredType = typeof(string)}
@@ -81,11 +83,11 @@ namespace XUnitIoCTest
 
             using (BackupService backup = new BackupService(new BasicBackup()))
             {
-                backup.MakeBackup(basePath, basePath, backExt);
+                backup.BackupStrategy.MakeBackup(basePath, basePath, backExt);
             }
             using (BackupService backup = new BackupService(new ZipBackup()))
             {
-                backup.MakeBackup(files, basePath, zipName);
+                backup.BackupStrategy.MakeBackup(files, basePath, zipName);
             }
         }
 
@@ -124,7 +126,7 @@ namespace XUnitIoCTest
         [Fact]
         public void TestFileImport()
         {
-            FileImportProcess importProcess = new FileImportProcess("C:\\RDS", ".xlsx");
+            FileImport importProcess = new FileImport(new FileImportInfo("C:\\RDS", ".xlsx"));
             IList<string> testFiles = importProcess.GetImportFiles();
 
             foreach (var file in testFiles)

@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoCWebAppAspCore", "IoCWebA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Workflows", "Workflows\Workflows.csproj", "{08C14286-8213-40FA-BFE8-2271197E925D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compression", "Compression\Compression.csproj", "{9AF6DEFB-495F-48A3-BA18-7BF71CEA1F7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compression", "Compression\Compression.csproj", "{9AF6DEFB-495F-48A3-BA18-7BF71CEA1F7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF2E3F01-5BD0-46D9-9899-FF9ABC9EBA13}"
+	ProjectSection(SolutionItems) = preProject
+		GitFlow.uxf = GitFlow.uxf
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
