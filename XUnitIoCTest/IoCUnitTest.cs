@@ -22,7 +22,7 @@ namespace XUnitIoCTest
         {
             var itemList = new List<ITestItem>()
             { 
-                new TestItem(){ ProposedKey = "Key1", RawValue = "Value", StoredType = typeof(string)},
+                new TestItem(){ ProposedKey = "Key1", RawValue = "Value",  StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key1", RawValue = "Value2", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key2", RawValue = "Value3", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key3", RawValue = "Value4", StoredType = typeof(string)}
@@ -67,13 +67,13 @@ namespace XUnitIoCTest
                              $"{".zip"}";
             string backExt = dateStringFormat + ".bak";
 
-            using (BackupService backup = new BackupService(new BasicBackup()))
+            using (BackupService backupService = new BackupService(new BasicBackup()))
             {
-                backup.MakeBackup(basePath, basePath, backExt);
+                backupService.BackupStrategy.MakeBackup(basePath, basePath, backExt);
             }
-            using (BackupService backup = new BackupService(new ZipBackup()))
+            using (BackupService backupService = new BackupService(new ZipBackup()))
             {
-                backup.MakeBackup(files, basePath, zipName);
+                backupService.BackupStrategy.MakeBackup(files, basePath, zipName);
             }
         }
 
@@ -112,8 +112,17 @@ namespace XUnitIoCTest
         [Fact]
         public void TestFileImport()
         {
-            FileImportProcess importProcess = new FileImportProcess("C:\\RDS", ".xlsx");
-            IList<string> testFiles = importProcess.GetImportFiles();
+            IFileImportInfo fileImportInfo = new FileImportInfo();
+            IFileImport import = new FileImport(fileImportInfo);
+
+            IList<string> testFiles = import.GetImportFiles();
+
+#if DEBUG
+            foreach (var testFile in testFiles)
+            {
+                Debug.WriteLine(testFile);
+            }
+#endif
 
             foreach (var file in testFiles)
             {
