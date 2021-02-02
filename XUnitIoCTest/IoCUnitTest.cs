@@ -21,13 +21,13 @@ namespace XUnitIoCTest
         public void TestEnumFactoryDelegated()
         {
             //Create delegate for creating Cat...
-            MyItemDescriptor itemDescriptor = new MyItemDescriptor {Type = MyItemType.Cat, Creator = ()=>new Cat()};
+            AnimalDescriptor itemDescriptor = new AnimalDescriptor {Type = Animal.Cat, Creator = ()=>new Cat()};
 
-            IList<MyItemDescriptor> descriptors = new List<MyItemDescriptor>();
+            IList<AnimalDescriptor> descriptors = new List<AnimalDescriptor>();
             descriptors.Add(itemDescriptor);
 
-            MyItemFactory factory = new MyItemFactory(descriptors);
-            IMyItem item = factory.Create(MyItemType.Cat);
+            AnimalFactory factory = new AnimalFactory(descriptors);
+            IAnimal item = factory.Create(Animal.Dog);
 
             //Cat has a primitive that should default to 4
             Assert.True(item.Legs == 4);
