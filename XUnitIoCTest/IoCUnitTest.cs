@@ -18,6 +18,13 @@ namespace XUnitIoCTest
     public class IoCUnitTest
     {
         [Fact]
+        public void TestEnumFactoryDelegated()
+        {
+            MyItemFactory factory = new MyItemFactory(new List<MyItemDescriptor>());
+            IMyItem item = factory.Create(MyItemType.Cat);
+        }
+
+        [Fact]
         public void TestExcelImportBuilder()
         {
             var itemList = new List<ITestItem>()
