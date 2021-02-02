@@ -22,6 +22,11 @@ namespace IoCTest.Interfaces
         int Legs { get; }
     }
 
+    public class Cat : IMyItem
+    {
+        public int Legs { get; set; } = 4;
+    }
+
     public class MyItemDescriptor
     {
         public MyItemType Type;
