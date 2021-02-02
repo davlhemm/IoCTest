@@ -18,11 +18,23 @@ namespace XUnitIoCTest
     public class IoCUnitTest
     {
         [Fact]
+        public void TestEnumFactoryDelegated()
+        {
+            //Create delegate for creating Cat...
+            MyItemDescriptor itemDescriptor = new MyItemDescriptor();
+            itemDescriptor.Type = MyItemType.Cat;
+            itemDescriptor.Creator = new MyItemCreationDelegate();
+
+            MyItemFactory factory = new MyItemFactory(new List<MyItemDescriptor>());
+            IMyItem item = factory.Create(MyItemType.Cat);
+        }
+
+        [Fact]
         public void TestExcelImportBuilder()
         {
             var itemList = new List<ITestItem>()
             { 
-                new TestItem(){ ProposedKey = "Key1", RawValue = "Value",  StoredType = typeof(string)},
+                new TestItem(){ ProposedKey = "Key1", RawValue = "Value", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key1", RawValue = "Value2", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key2", RawValue = "Value3", StoredType = typeof(string)},
                 new TestItem(){ ProposedKey = "Key3", RawValue = "Value4", StoredType = typeof(string)}
@@ -67,13 +79,13 @@ namespace XUnitIoCTest
                              $"{".zip"}";
             string backExt = dateStringFormat + ".bak";
 
-            using (BackupService backupService = new BackupService(new BasicBackup()))
+            using (BackupService backup = new BackupService(new BasicBackup()))
             {
-                backupService.BackupStrategy.MakeBackup(basePath, basePath, backExt);
+                backup.MakeBackup(basePath, basePath, backExt);
             }
-            using (BackupService backupService = new BackupService(new ZipBackup()))
+            using (BackupService backup = new BackupService(new ZipBackup()))
             {
-                backupService.BackupStrategy.MakeBackup(files, basePath, zipName);
+                backup.MakeBackup(files, basePath, zipName);
             }
         }
 
@@ -112,17 +124,8 @@ namespace XUnitIoCTest
         [Fact]
         public void TestFileImport()
         {
-            IFileImportInfo fileImportInfo = new FileImportInfo();
-            IFileImport import = new FileImport(fileImportInfo);
-
-            IList<string> testFiles = import.GetImportFiles();
-
-#if DEBUG
-            foreach (var testFile in testFiles)
-            {
-                Debug.WriteLine(testFile);
-            }
-#endif
+            FileImportProcess importProcess = new FileImportProcess("C:\\RDS", ".xlsx");
+            IList<string> testFiles = importProcess.GetImportFiles();
 
             foreach (var file in testFiles)
             {
