@@ -34,34 +34,34 @@ namespace IoCWebAppAspCore.Controllers
             string aTest = _base.BaseDo("In Index of HomeController");
             _logger.LogInformation(aTest);
 
-            var _iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
+            iocOptions.ViewDataPopulator(_base, ViewData);
             
             return View();
         }
 
         public IActionResult Privacy()
         {
-            var _iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
+            iocOptions.ViewDataPopulator(_base, ViewData);
 
             return View();
         }
 
         public IActionResult Test()
         {
-            var _iocOptions = _config.OptionBinder<OtherOptions>(OtherOptions.Other);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<OtherOptions>(OtherOptions.Other);
+            iocOptions.ViewDataPopulator(_base, ViewData);
 
-            _myLogger.Log(_iocOptions.Name);
+            _myLogger.Log(iocOptions.Name);
 
             return View(new TestViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public IActionResult Other()
         {
-            var _iocOptions = _config.OptionBinder<TestingOptions>(TestingOptions.Testing);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<TestingOptions>(TestingOptions.Testing);
+            iocOptions.ViewDataPopulator(_base, ViewData);
 
             return View();
         }
