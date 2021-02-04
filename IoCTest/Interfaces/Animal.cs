@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace IoCTest.Interfaces
 {
@@ -25,6 +24,21 @@ namespace IoCTest.Interfaces
     public class Cat : IAnimal
     {
         public int Legs { get; set; } = 4;
+    }
+
+    public class Person : IAnimal
+    {
+        public int Legs => 2;
+    }
+
+    public class Horse : IAnimal
+    {
+        public int Legs => 4;
+    }
+
+    public class Dog : IAnimal
+    {
+        public int Legs => 4;
     }
 
     public class AnimalDescriptor

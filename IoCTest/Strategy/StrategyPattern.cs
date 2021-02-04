@@ -6,9 +6,9 @@ namespace IoCTest
 {
     public class StratContext
     {
-        private StrategyBase _theStrat;
+        private readonly IStrategyBase _theStrat;
 
-        public StratContext(StrategyBase strategy)
+        public StratContext(IStrategyBase strategy)
         {
             _theStrat = strategy;
         }
@@ -20,11 +20,15 @@ namespace IoCTest
     }
 
 
-    public abstract class StrategyBase
+    public abstract class StrategyBase : IStrategyBase
     {
         public abstract void StratAlgorithm();
     }
 
+    public interface IStrategyBase
+    {
+        public void StratAlgorithm();
+    }
 
     public class ConcreteStrategyA : StrategyBase
     {
