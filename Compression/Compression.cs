@@ -108,7 +108,7 @@ namespace Compression
                 {
                     // Define the compression level
                     // 0 - store only to 9 - means best compression
-                    //TODO: homogenized enum for compression strength
+                    //Done: homogenized enum for compression strength
                     outputStream.SetLevel(compressionLevel);
 
                     byte[] buffer = new byte[4096];

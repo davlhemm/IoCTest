@@ -34,4 +34,11 @@ namespace IoCTest
         public string Dummy4 { get; set; }
         public string Dummy5 { get; set; }
     }
+
+    public class FileLoggerOptions
+    {
+        public const string FileLogger = nameof(FileLogger);
+
+        public string FileName { get; set; }
+    }
 }

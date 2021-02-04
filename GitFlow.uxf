@@ -48,12 +48,15 @@
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>70</x>
-      <y>200</y>
-      <w>90</w>
-      <h>40</h>
+      <x>40</x>
+      <y>170</y>
+      <w>120</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>release</panel_attributes>
+    <panel_attributes>release
+--
+-Releases publish
+ on this branch</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -74,11 +77,11 @@
       <x>110</x>
       <y>100</y>
       <w>150</w>
-      <h>120</h>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 full tag (1.0, 2.0, ~)</panel_attributes>
-    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

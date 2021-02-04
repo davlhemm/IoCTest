@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IoCWebAppAspCore.Models;
 using IoCTest;
+using IoCTest.Model;
 using Microsoft.Extensions.Configuration;
 using System.Collections;
 using System.Reflection;
@@ -18,12 +19,14 @@ namespace IoCWebAppAspCore.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
         private readonly IBase _base;
+        private readonly IoCTest.Model.ILogger _myLogger;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, IBase baseThing)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, IBase baseThing, IoCTest.Model.ILogger myLogger)
         {
-            _logger = logger;
-            _config = config;
-            _base   = baseThing;
+            _logger   = logger;
+            _config   = config;
+            _base     = baseThing;
+            _myLogger = myLogger;
         }
 
         public IActionResult Index()
@@ -49,6 +52,8 @@ namespace IoCWebAppAspCore.Controllers
         {
             var _iocOptions = _config.OptionBinder<OtherOptions>(OtherOptions.Other);
             _iocOptions.ViewDataPopulator(_base, ViewData);
+
+            _myLogger.Log(_iocOptions.Name);
 
             return View(new TestViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

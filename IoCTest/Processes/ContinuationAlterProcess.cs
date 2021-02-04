@@ -134,10 +134,10 @@
     //                                        ContChanges.Add(new ContinuationChange(oldText, newContTest,
     //                                                                                ContinuationStatus.Completed));
     //                                    }
-    //                                    //Done: TODO: Define what this does when it fails...it's stupid to astroturf all the continuations
+    //                                    //Done: Define what this does when it fails...it's stupid to astroturf all the continuations
     //                                    catch (System.Exception e)
     //                                    {
-    //                                        // Wont: TODO: Do something...continuation potentially stayed the same
+    //                                        // Wont: Do something...continuation potentially stayed the same
     //                                        // Add change to list but have error state
     //                                        ContChanges.Add(new ContinuationChange(oldText, newContTest,
     //                                                                                ContinuationStatus.Failed));

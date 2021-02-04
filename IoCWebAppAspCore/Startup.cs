@@ -30,6 +30,10 @@ namespace IoCWebAppAspCore
         {
             services.AddSingleton<IBase, FurtherDerived>();
 
+            //TODO: Pull config items here?!  How do we normally do this?! 
+            var myConfigItem = Configuration.OptionBinder<FileLoggerOptions>(FileLoggerOptions.FileLogger);
+            services.AddSingleton<ILogger>(x => new FileLogger(myConfigItem.FileName));
+
             //Replaced by options pattern...
             //services.Configure<OtherOptions>(Configuration);
             //services.Configure<BaseOptions>(Configuration);

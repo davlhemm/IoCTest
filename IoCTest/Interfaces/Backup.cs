@@ -21,26 +21,8 @@ namespace IoCTest.Interfaces
         {
             _backupStrategy = backupStrategy;
         }
-
-        /// <summary>
-        /// Context/strategy switch
-        /// </summary>
-        //public void SetBackupStrat(IBackup backupStrategy)
-        //{
-        //    _backupStrategy = backupStrategy;
-        //}
         
         public void Dispose() { }
-
-        //public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
-        //{
-        //    _backupStrategy.MakeBackup(listOfFiles, outDirectory, outFileName);
-        //}
-
-        //public void MakeBackup(string inDirectory, string outDirectory, string outFileName)
-        //{
-        //    _backupStrategy.MakeBackup(inDirectory, outDirectory, outFileName);
-        //}
     }
 
     public class ZipBackup : IBackup
