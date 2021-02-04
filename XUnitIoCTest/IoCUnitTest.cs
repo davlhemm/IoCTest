@@ -81,10 +81,10 @@ namespace XUnitIoCTest
                              $"{".zip"}";
             string backExt = dateStringFormat + ".bak";
 
-            using (BackupService backup = new BackupService(new BasicBackup()))
-            {
-                backup.BackupStrategy.MakeBackup(basePath, basePath, backExt);
-            }
+            //using (BackupService backup = new BackupService(new BasicBackup()))
+            //{
+            //    backup.BackupStrategy.MakeBackup(basePath, basePath, backExt);
+            //}
             using (BackupService backup = new BackupService(new ZipBackup()))
             {
                 backup.BackupStrategy.MakeBackup(files, basePath, zipName);

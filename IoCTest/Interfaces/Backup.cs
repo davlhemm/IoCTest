@@ -48,7 +48,8 @@ namespace IoCTest.Interfaces
         public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
         {
             //Journey into dependent code...
-            Compression.Compression.CompressDirectory(listOfFiles, outDirectory, outFileName);
+            //TODO: Decouple compression from backup strategy, inject Compression info and default to no compression on backups
+            Compression.Compression.CompressDirectory(listOfFiles, outDirectory, outFileName, CompressionStrength.Weak);
         }
 
 #if !NET5_0

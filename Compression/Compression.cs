@@ -34,6 +34,61 @@ namespace Compression
 
     public static class Compression
     {
+        public static CompressionStrength CompressStrengthContract(this int compressionLevel)
+        {
+            switch (compressionLevel)
+            {
+                case 0:
+                    return CompressionStrength.None;
+                case 1:
+                case 2:
+                    return CompressionStrength.Weak;
+                case 3:
+                case 4:
+                case 5:
+                    return CompressionStrength.Moderate;
+                case 6:
+                case 7:
+                case 8:
+                    return CompressionStrength.Strong;
+                case 9:
+                    return CompressionStrength.Intense;
+                default:
+                    return CompressionStrength.Moderate;
+            }
+        }
+
+        /// <summary>
+        /// Represents homogenized values for this Compression strategy
+        /// </summary>
+        /// <param name="compressionLevel"></param>
+        /// <returns></returns>
+        public static int CompressStrengthContract(this CompressionStrength compressionLevel)
+        {
+            switch (compressionLevel)
+            {
+                case CompressionStrength.None:
+                    return 0;
+                case CompressionStrength.Weak:
+                    return 2;
+                case CompressionStrength.Moderate:
+                    return 4;
+                case CompressionStrength.Strong:
+                    return 7;
+                case CompressionStrength.Intense:
+                    return 9;
+                default:
+                    return 5;
+            }
+        }
+
+
+        public static void CompressDirectory(IList<string> files, string outDirectory, string outFileName,
+                                                CompressionStrength compressionLevel = CompressionStrength.Intense)
+        {
+            CompressDirectory(files, outDirectory, outFileName, compressionLevel.CompressStrengthContract());
+        }
+        
         /// <summary>
         /// Method that compress all the files inside a folder (non-recursive) into a zip file.
         /// </summary>
@@ -41,7 +96,7 @@ namespace Compression
         /// <param name="outDirectory"></param>
         /// <param name="outFileName">Used as explicit name for strategies that use single file and an extension for those that do per-file.</param>
         /// <param name="compressionLevel"></param>
-        public static void CompressDirectory(IList<string> files, string outDirectory, string outFileName, int compressionLevel = 9)
+        public static void CompressDirectory(IList<string> files, string outDirectory, string outFileName, int compressionLevel)
         {
             try
             {
