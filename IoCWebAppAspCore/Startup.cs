@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using IoCTest;
+using IoCTest.Interfaces;
 using IoCTest.Model;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -31,8 +32,11 @@ namespace IoCWebAppAspCore
             services.AddSingleton<IBase, FurtherDerived>();
 
             //TODO: Pull config items here?!  How do we normally do this?! 
-            var myConfigItem = Configuration.OptionBinder<FileLoggerOptions>(FileLoggerOptions.FileLogger);
-            services.AddSingleton<ILogger>(x => new FileLogger(myConfigItem.FileName));
+            var fileLoggerOptions = Configuration.OptionBinder<FileLoggerOptions>(FileLoggerOptions.FileLogger);
+            services.AddSingleton<ILogger>(x => new FileLogger(fileLoggerOptions.FileName));
+
+            var backupOptions = Configuration.OptionBinder<BackupOptions>(BackupOptions.Backup);
+            services.AddSingleton<IBackup>(x => new ZipBackup());
 
             //Replaced by options pattern...
             //services.Configure<OtherOptions>(Configuration);

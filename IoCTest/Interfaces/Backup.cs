@@ -10,6 +10,7 @@ namespace IoCTest.Interfaces
     public class BackupService : IDisposable
     {
         private readonly IBackup _backupStrategy;
+        //TODO: See if we want exposed strat here or just hide behind indifferent adapter (DI)
         public IBackup BackupStrategy => _backupStrategy;
 
         private BackupService()
@@ -30,7 +31,7 @@ namespace IoCTest.Interfaces
         public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
         {
             //Journey into dependent code...
-            //TODO: Decouple compression from backup strategy, inject Compression info and default to no compression on backups
+            //TODO: Decouple compression from backup strategy, inject Compression info and default to particular compression on all backups
             Compression.Compression.CompressDirectory(listOfFiles, outDirectory, outFileName, CompressionStrength.Weak);
         }
 
@@ -55,6 +56,8 @@ namespace IoCTest.Interfaces
             {
                 Console.WriteLine(file);
                 //In Basic backup, append outFileName as extension for creating per-file backups
+                //TODO: Delineate backup strats that require/support compression per-file and per-N.
+                //      Shouldn't need alternative client work just a sent Compression scheme...
                 string theFileXpCompat = Path.GetFileName(file);
                 File.Copy(file, outDirectory + "\\" + theFileXpCompat + outFileName, true);
             }
@@ -74,7 +77,7 @@ namespace IoCTest.Interfaces
         void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName);
 
         //TODO: Explicit interface implementation (C# 8)
-#if NET5_0     //Use Default if we can
+#if NET5_0     //TODO: Use Default if we can but likely won't support
         void MakeBackup(string inDirectory, string outDirectory, string outFileName)
         {
             DirectoryInfo dirInfo = new DirectoryInfo(inDirectory);

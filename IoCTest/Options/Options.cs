@@ -41,4 +41,11 @@ namespace IoCTest
 
         public string FileName { get; set; }
     }
+
+    public class BackupOptions
+    {
+        public const string Backup = nameof(Backup);
+
+        public string FileName { get; set; }
+    }
 }

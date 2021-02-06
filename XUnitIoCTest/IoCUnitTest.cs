@@ -25,7 +25,7 @@ namespace XUnitIoCTest
             itemDescriptor.Type = MyItemType.Cat;
 
             //TODO: Create cat creator delegate
-//            itemDescriptor.Creator = new MyItemCreationDelegate();
+            //itemDescriptor.Creator = new MyItemCreationDelegate();
 
             MyItemFactory factory = new MyItemFactory(new List<MyItemDescriptor>());
             IMyItem item = factory.Create(MyItemType.Cat);
@@ -69,26 +69,36 @@ namespace XUnitIoCTest
         [Fact]
         public void TestBackup()
         {
-            string basePath = @"C:\Users\dhemmenway\Documents\LLDataPrcessor\Test\";
+            //TODO: Classify required info for this backup process, inject
+            string basePath = Environment.GetEnvironmentVariable("userprofile") + @"\Documents\LLDataPrcessor\Test\";
             string searchPattern = @"*.DWG";
+            string dateStringFormat = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            string backExt = dateStringFormat + ".bak";
+            string zipName = $"{"LLDPDwgBackup"}" +
+                             dateStringFormat +
+                             $"{".zip"}";
+            
             IList<string> files = Directory.GetFiles(
                 basePath,
                 searchPattern,
                 SearchOption.AllDirectories);
-            string dateStringFormat = DateTime.Now.ToString("yyyyMMdd-HHmmss");
-            string zipName = $"{"LLDPDwgBackup"}" +
-                             dateStringFormat +
-                             $"{".zip"}";
-            string backExt = dateStringFormat + ".bak";
 
-            //using (BackupService backup = new BackupService(new BasicBackup()))
-            //{
-            //    backup.BackupStrategy.MakeBackup(basePath, basePath, backExt);
-            //}
-            using (BackupService backup = new BackupService(new ZipBackup()))
+            // DI compatibility tested in MEDI
+            // Ex: services.AddSingleton<IBackup>(x => new ZipBackup());
+            IBackup dumbBackup = new BasicBackup();
+            IBackup zipBackup = new ZipBackup();
+
+            using (BackupService backup = new BackupService(dumbBackup))
+            {
+                backup.BackupStrategy.MakeBackup(basePath, basePath, backExt);
+            }
+            using (BackupService backup = new BackupService(zipBackup))
             {
                 backup.BackupStrategy.MakeBackup(files, basePath, zipName);
             }
+
+            Assert.True(dumbBackup.GetType() == typeof(BasicBackup) &&
+                         zipBackup.GetType() == typeof(ZipBackup));
         }
 
         [Fact]

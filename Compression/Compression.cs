@@ -8,7 +8,11 @@ namespace Compression
 {
     public static class CompressionStrengthEnum
     {
-        public const string None = nameof(None);
+        public const string None     = nameof(None);
+        public const string Weak     = nameof(Weak);
+        public const string Moderate = nameof(Moderate);
+        public const string Strong   = nameof(Strong);
+        public const string Intense  = nameof(Intense);
     }
     /// <summary>
     /// One side of contract for strength of compression vs myriad of compression strategies
@@ -22,16 +26,26 @@ namespace Compression
         Intense
     }
 
-    public class CompressionInfo
+    public class CompressInfo : ICompressInfo
     {
         private CompressionStrength _strength;
-        private CompressionStrength Strength
+        public CompressionStrength Strength
         {
             get => _strength;
             set => _strength = value;
         }
     }
 
+    public interface ICompressInfo
+    {
+        CompressionStrength Strength { get; }
+    }
+
+
+    /// <summary>
+    /// Class that will handle all things simple compression
+    /// <para>Different strategies should be supported for disparate libraries</para>
+    /// </summary>
     public static class Compression
     {
         public static CompressionStrength CompressStrengthContract(this int compressionLevel)
@@ -62,7 +76,7 @@ namespace Compression
         /// Represents homogenized values for this Compression strategy
         /// </summary>
         /// <param name="compressionLevel"></param>
-        /// <returns></returns>
+        /// <returns>Integer representation for SharpZipLib</returns>
         public static int CompressStrengthContract(this CompressionStrength compressionLevel)
         {
             switch (compressionLevel)
