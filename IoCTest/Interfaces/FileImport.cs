@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using IoCTest.Interfaces;
 
-namespace IoCTest.Processes
+namespace IoCTest.Interfaces
 {
     /// <summary>
     /// <para>File Import Process should be what's related to individual file imports...</para>

@@ -72,25 +72,26 @@ namespace XUnitIoCTest
             //TODO: Classify required info for this backup process, inject
             string basePath = Environment.GetEnvironmentVariable("userprofile") + @"\Documents\LLDataPrcessor\Test\";
             string searchPattern = @"*.DWG";
+
+            IFileImportInfo importInfo = new FileImportInfo(basePath, searchPattern);
+            IFileImport     importer   = new FileImport(importInfo);
+
+            IList<string> files = importer.GetImportFiles();
+
             string dateStringFormat = DateTime.Now.ToString("yyyyMMdd-HHmmss");
-            string backExt = dateStringFormat + ".bak";
+            string backupExt = dateStringFormat + ".bak";
             string zipName = $"{"LLDPDwgBackup"}" +
                              dateStringFormat +
                              $"{".zip"}";
-            
-            IList<string> files = Directory.GetFiles(
-                basePath,
-                searchPattern,
-                SearchOption.AllDirectories);
 
             // DI compatibility tested in MEDI
             // Ex: services.AddSingleton<IBackup>(x => new ZipBackup());
             IBackup dumbBackup = new BasicBackup();
-            IBackup zipBackup = new ZipBackup();
+            IBackup zipBackup  = new ZipBackup();
 
             using (BackupService backup = new BackupService(dumbBackup))
             {
-                backup.BackupStrategy.MakeBackup(basePath, basePath, backExt);
+                backup.BackupStrategy.MakeBackup(basePath, basePath, backupExt);
             }
             using (BackupService backup = new BackupService(zipBackup))
             {
