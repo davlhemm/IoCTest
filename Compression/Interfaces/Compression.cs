@@ -15,6 +15,7 @@ namespace Compression.Interfaces
         public const string Strong   = nameof(Strong);
         public const string Intense  = nameof(Intense);
     }
+
     /// <summary>
     /// One side of contract for strength of compression vs myriad of compression strategies
     /// </summary>
@@ -38,7 +39,7 @@ namespace Compression.Interfaces
         }
     }
 
-    //TODO: Move to CompressInfo as contract info may be based on different strategies
+    //TODO: Move to CompressInfo implementation as contract info may be based on different strategies
     public static class CompressStrength
     {
         public static CompressionStrength CompressStrengthContract(this int compressionLevel)
@@ -96,6 +97,15 @@ namespace Compression.Interfaces
         CompressionStrength Strength { get; }
     }
 
+    
+    public interface ICompress
+    {
+        void CompressDirectory(IList files, string outDirectory, string outFileName);
+        void CompressDirectory(IList files, string outDirectory, string outFileName,
+            int compressionLevel);
+        void CompressDirectory(IList files, string outDirectory, string outFileName,
+            CompressionStrength compressionLevel);
+    }
 
     /// <summary>
     /// Class that will handle all things simple compression
@@ -103,7 +113,6 @@ namespace Compression.Interfaces
     /// </summary>
     public class Compression : ICompress
     {
-        //TODO: Compression item needs a default strength when created...
         private readonly ICompressInfo _compressInfo;
 
         private Compression()
@@ -206,14 +215,5 @@ namespace Compression.Interfaces
             }
         }
 
-    }
-
-    public interface ICompress
-    {
-        void CompressDirectory(IList files, string outDirectory, string outFileName);
-        void CompressDirectory(IList files, string outDirectory, string outFileName, 
-                                int compressionLevel);
-        void CompressDirectory(IList files, string outDirectory, string outFileName,
-                                CompressionStrength compressionLevel);
     }
 }

@@ -40,6 +40,7 @@ namespace IoCTest
         public const string FileLogger = nameof(FileLogger);
 
         public string FileName { get; set; }
+        public string Extension { get; set; }
     }
 
     public class BackupOptions

@@ -27,7 +27,8 @@ namespace IoCWebAppAspCore
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    //webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<AltStartup>();
                 });
     }
 }

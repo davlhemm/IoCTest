@@ -16,11 +16,11 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace IoCWebAppAspCore
 {
-    public class Startup
+    public class AltStartup
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public AltStartup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
@@ -29,15 +29,8 @@ namespace IoCWebAppAspCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IBase, FurtherDerived>();
-
-            //TODO: Pull config items here?!  How do we normally do this?! 
-            var fileLoggerOptions = Configuration.OptionBinder<FileLoggerOptions>(FileLoggerOptions.FileLogger);
-            services.AddSingleton<ILogger>(x => new FileLogger(fileLoggerOptions.FileName));
-
-            var backupOptions = Configuration.OptionBinder<BackupOptions>(BackupOptions.Backup);
-            services.AddSingleton<IBackup>(x => new ZipBackup());
-
+            services.AddMyServices(Configuration);
+            
             services.AddControllersWithViews();
         }
 
@@ -67,8 +60,6 @@ namespace IoCWebAppAspCore
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            
         }
     }
 }

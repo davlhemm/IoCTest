@@ -30,6 +30,7 @@
     "Dummy5": "5"
   },
   "FileLogger": {
-    "FileName": "LogFileTest.txt"
+    "FileName": "LogFileTest",
+    "Extension": ".txt"
   } 
 }
