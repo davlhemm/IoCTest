@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Compression;
+using Compression.Interfaces;
 
 namespace IoCTest.Interfaces
 {
@@ -31,8 +31,11 @@ namespace IoCTest.Interfaces
         public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
         {
             //Journey into dependent code...
+            ICompress compressionItem = new Compression.Interfaces.Compression(new CompressInfo());
+            
+            //TODO: Pull compression information up where dependency not embedded so deeply
             //TODO: Decouple compression from backup strategy, inject Compression info and default to particular compression on all backups
-            Compression.Compression.CompressDirectory(listOfFiles, outDirectory, outFileName, CompressionStrength.Weak);
+            compressionItem.CompressDirectory((IList)listOfFiles, outDirectory, outFileName);
         }
 
 #if !NET5_0

@@ -1,10 +1,11 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace Compression
+namespace Compression.Interfaces
 {
     public static class CompressionStrengthEnum
     {
@@ -28,7 +29,8 @@ namespace Compression
 
     public class CompressInfo : ICompressInfo
     {
-        private CompressionStrength _strength;
+        //TODO: Defaulted to intense, test this as default constructor valid
+        private CompressionStrength _strength = CompressionStrength.Intense;
         public CompressionStrength Strength
         {
             get => _strength;
@@ -36,17 +38,8 @@ namespace Compression
         }
     }
 
-    public interface ICompressInfo
-    {
-        CompressionStrength Strength { get; }
-    }
-
-
-    /// <summary>
-    /// Class that will handle all things simple compression
-    /// <para>Different strategies should be supported for disparate libraries</para>
-    /// </summary>
-    public static class Compression
+    //TODO: Move to CompressInfo as contract info may be based on different strategies
+    public static class CompressStrength
     {
         public static CompressionStrength CompressStrengthContract(this int compressionLevel)
         {
@@ -95,10 +88,44 @@ namespace Compression
                     return 5;
             }
         }
+    }
+    
+
+    public interface ICompressInfo
+    {
+        CompressionStrength Strength { get; }
+    }
 
 
-        public static void CompressDirectory(IList<string> files, string outDirectory, string outFileName,
-                                                CompressionStrength compressionLevel = CompressionStrength.Intense)
+    /// <summary>
+    /// Class that will handle all things simple compression
+    /// <para>Different strategies should be supported for disparate libraries</para>
+    /// </summary>
+    public class Compression : ICompress
+    {
+        //TODO: Compression item needs a default strength when created...
+        private readonly ICompressInfo _compressInfo;
+
+        private Compression()
+        {
+            throw new NotImplementedException(
+                "Cannot create compression worker with no compression strength define...");
+        }
+
+
+        public Compression(ICompressInfo compressInfo)
+        {
+            _compressInfo = compressInfo;
+        }
+
+
+        public void CompressDirectory(IList files, string outDirectory, string outFileName)
+        {
+            CompressDirectory(files, outDirectory, outFileName, _compressInfo.Strength);
+        }
+
+        public void CompressDirectory(IList files, string outDirectory, string outFileName, 
+                                        CompressionStrength compressionLevel)
         {
             CompressDirectory(files, outDirectory, outFileName, compressionLevel.CompressStrengthContract());
         }
@@ -110,7 +137,8 @@ namespace Compression
         /// <param name="outDirectory"></param>
         /// <param name="outFileName">Used as explicit name for strategies that use single file and an extension for those that do per-file.</param>
         /// <param name="compressionLevel"></param>
-        public static void CompressDirectory(IList<string> files, string outDirectory, string outFileName, int compressionLevel)
+        //TODO: Need to provide disparate impl here, calls with client-specific int explicitly
+        public void CompressDirectory(IList files, string outDirectory, string outFileName, int compressionLevel)
         {
             try
             {
@@ -131,7 +159,7 @@ namespace Compression
                     {
                         // Using GetFileName makes the result compatible with XP
                         // as the resulting path is not absolute.
-                        ZipEntry entry = new ZipEntry(Path.GetFileName(file));
+                        ZipEntry entry = new ZipEntry(Path.GetFileName((string)file));
 
                         // Setup the entry data as required.
 
@@ -142,7 +170,7 @@ namespace Compression
                         entry.DateTime = DateTime.Now;
                         outputStream.PutNextEntry(entry);
 
-                        using (FileStream fs = File.OpenRead(file))
+                        using (FileStream fs = File.OpenRead((string)file))
                         {
                             // Using a fixed size buffer here makes no noticeable difference for output
                             // but keeps a lid on memory usage.
@@ -177,5 +205,15 @@ namespace Compression
 #endif
             }
         }
+
+    }
+
+    public interface ICompress
+    {
+        void CompressDirectory(IList files, string outDirectory, string outFileName);
+        void CompressDirectory(IList files, string outDirectory, string outFileName, 
+                                int compressionLevel);
+        void CompressDirectory(IList files, string outDirectory, string outFileName,
+                                CompressionStrength compressionLevel);
     }
 }
