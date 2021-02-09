@@ -78,11 +78,9 @@ namespace XUnitIoCTest
 
             IList<string> files = importer.GetImportFiles();
 
-            string dateStringFormat = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            string dateStringFormat = $"{DateTime.Now:yyyyMMdd-HHmmss}";
             string backupExt = dateStringFormat + ".bak";
-            string zipName = $"{"LLDPDwgBackup"}" +
-                             dateStringFormat +
-                             $"{".zip"}";
+            string zipName = $"{"LLDPDwgBackup"}{dateStringFormat}{".zip"}";
 
             // DI compatibility tested in MEDI
             // Ex: services.AddSingleton<IBackup>(x => new ZipBackup());
