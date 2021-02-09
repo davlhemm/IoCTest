@@ -1,24 +1,24 @@
 {
   "Base": {
-    "Title": "IoC Demonstation W/Config",
+    "Title": "IoC Demonstration W/Config",
     "Name": "David L. Hemmenway",
     "Privacy": "Privacy Data"
   },
   "Other": {
-    "Title": "IoC Demonstation W/Config",
+    "Title": "IoC Demonstration W/Config",
     "Name": "David L. Hemmenway",
     "Privacy": "Privacy Data",
     "Item": "Test Item"
   },
   "Settings": {
-    "Title": "IoC Demonstation W/Config",
+    "Title": "IoC Demonstration W/Config",
     "Name": "David L. Hemmenway",
     "Privacy": "Privacy Data",
     "Item": "Item",
     "Test": "Test"
   },
   "Testing": {
-    "Title": "IoC Demonstation W/Config",
+    "Title": "IoC Demonstration W/Config",
     "Name": "David L. Hemmenway",
     "Privacy": "Privacy Data",
     "Item": "Item",
@@ -28,6 +28,9 @@
     "Dummy3": "3",
     "Dummy4": "4",
     "Dummy5": "5"
-
-  }
+  },
+  "FileLogger": {
+    "FileName": "LogFileTest",
+    "Extension": ".txt"
+  } 
 }

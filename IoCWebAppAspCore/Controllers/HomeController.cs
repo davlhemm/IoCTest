@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using IoCWebAppAspCore.Models;
 using IoCTest;
+using IoCTest.Model;
 using Microsoft.Extensions.Configuration;
 using System.Collections;
 using System.Reflection;
@@ -18,12 +19,14 @@ namespace IoCWebAppAspCore.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
         private readonly IBase _base;
+        private readonly IoCTest.Model.ILogger _myLogger;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config, IBase baseThing)
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, IBase baseThing, IoCTest.Model.ILogger myLogger)
         {
-            _logger = logger;
-            _config = config;
-            _base   = baseThing;
+            _logger   = logger;
+            _config   = config;
+            _base     = baseThing;
+            _myLogger = myLogger;
         }
 
         public IActionResult Index()
@@ -31,32 +34,34 @@ namespace IoCWebAppAspCore.Controllers
             string aTest = _base.BaseDo("In Index of HomeController");
             _logger.LogInformation(aTest);
 
-            var _iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
+            iocOptions.ViewDataPopulator(_base, ViewData);
             
             return View();
         }
 
         public IActionResult Privacy()
         {
-            var _iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<BaseOptions>(BaseOptions.Base);
+            iocOptions.ViewDataPopulator(_base, ViewData);
 
             return View();
         }
 
         public IActionResult Test()
         {
-            var _iocOptions = _config.OptionBinder<OtherOptions>(OtherOptions.Other);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<OtherOptions>(OtherOptions.Other);
+            iocOptions.ViewDataPopulator(_base, ViewData);
+
+            _myLogger.Log(iocOptions.Name);
 
             return View(new TestViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         public IActionResult Other()
         {
-            var _iocOptions = _config.OptionBinder<TestingOptions>(TestingOptions.Testing);
-            _iocOptions.ViewDataPopulator(_base, ViewData);
+            var iocOptions = _config.OptionBinder<TestingOptions>(TestingOptions.Testing);
+            iocOptions.ViewDataPopulator(_base, ViewData);
 
             return View();
         }

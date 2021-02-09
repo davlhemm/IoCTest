@@ -25,7 +25,7 @@ namespace XUnitIoCTest
             itemDescriptor.Type = MyItemType.Cat;
 
             //TODO: Create cat creator delegate
-//            itemDescriptor.Creator = new MyItemCreationDelegate();
+            //itemDescriptor.Creator = new MyItemCreationDelegate();
 
             MyItemFactory factory = new MyItemFactory(new List<MyItemDescriptor>());
             IMyItem item = factory.Create(MyItemType.Cat);
@@ -69,26 +69,35 @@ namespace XUnitIoCTest
         [Fact]
         public void TestBackup()
         {
-            string basePath = @"C:\Users\dhemmenway\Documents\LLDataPrcessor\Test\";
+            //TODO: Classify required info for this backup process, inject
+            string basePath = Environment.GetEnvironmentVariable("userprofile") + @"\Documents\LLDataPrcessor\Test\";
             string searchPattern = @"*.DWG";
-            IList<string> files = Directory.GetFiles(
-                basePath,
-                searchPattern,
-                SearchOption.AllDirectories);
-            string dateStringFormat = DateTime.Now.ToString("yyyyMMdd-HHmmss");
-            string zipName = $"{"LLDPDwgBackup"}" +
-                             dateStringFormat +
-                             $"{".zip"}";
-            string backExt = dateStringFormat + ".bak";
 
-            using (BackupService backup = new BackupService(new BasicBackup()))
+            IFileImportInfo importInfo = new FileImportInfo(basePath, searchPattern);
+            IFileImporter   importer   = new FileImporter(importInfo);
+
+            IList<string> files = importer.GetImportFiles();
+
+            string dateStringFormat = $"{DateTime.Now:yyyyMMdd-HHmmss}";
+            string backupExt = dateStringFormat + ".bak";
+            string zipName = $"{"LLDPDwgBackup"}{dateStringFormat}{".zip"}";
+
+            // DI compatibility tested in MEDI
+            // Ex: services.AddSingleton<IBackup>(x => new ZipBackup());
+            IBackup dumbBackup = new BasicBackup();
+            IBackup zipBackup  = new ZipBackup();
+
+            using (BackupService backup = new BackupService(dumbBackup))
             {
-                backup.BackupStrategy.MakeBackup(basePath, basePath, backExt);
+                backup.BackupStrategy.MakeBackup(basePath, basePath, backupExt);
             }
-            using (BackupService backup = new BackupService(new ZipBackup()))
+            using (BackupService backup = new BackupService(zipBackup))
             {
                 backup.BackupStrategy.MakeBackup(files, basePath, zipName);
             }
+
+            Assert.True(dumbBackup.GetType() == typeof(BasicBackup) &&
+                         zipBackup.GetType() == typeof(ZipBackup));
         }
 
         [Fact]
@@ -126,8 +135,8 @@ namespace XUnitIoCTest
         [Fact]
         public void TestFileImport()
         {
-            FileImport importProcess = new FileImport(new FileImportInfo("C:\\RDS", ".xlsx"));
-            IList<string> testFiles = importProcess.GetImportFiles();
+            FileImporter importerProcess = new FileImporter(new FileImportInfo("C:\\RDS", ".xlsx"));
+            IList<string> testFiles = importerProcess.GetImportFiles();
 
             foreach (var file in testFiles)
             {

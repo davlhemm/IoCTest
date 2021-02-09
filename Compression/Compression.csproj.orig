@@ -8,8 +8,11 @@
     <PackageReference Include="SharpZipLib" Version="1.3.1" />
   </ItemGroup>
 
+<<<<<<< HEAD
+=======
   <ItemGroup>
     <Folder Include="Helpers\" />
   </ItemGroup>
 
+>>>>>>> feature/compression
 </Project>
