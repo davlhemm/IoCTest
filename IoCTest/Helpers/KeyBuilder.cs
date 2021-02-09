@@ -48,7 +48,7 @@ namespace IoCTest.Helpers
                     Match keyMatch = findExpr.Match(input);
 
                     // If THIS Regex yielded a match, construct the key
-                    // Wont: TODO: decide what formats to support
+                    // Wont: decide what formats to support
                     if (keyMatch.Success)
                     {
                         // Reset the key build

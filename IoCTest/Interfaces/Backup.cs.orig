@@ -3,14 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+<<<<<<< HEAD
+using Compression;
+=======
 using Compression.Interfaces;
+>>>>>>> feature/compression
 
 namespace IoCTest.Interfaces
 {
     public class BackupService : IDisposable
     {
         private readonly IBackup _backupStrategy;
+<<<<<<< HEAD
+=======
         //TODO: See if we want exposed strat here or just hide behind indifferent adapter (DI)
+>>>>>>> feature/compression
         public IBackup BackupStrategy => _backupStrategy;
 
         private BackupService()
@@ -24,6 +31,19 @@ namespace IoCTest.Interfaces
         }
         
         public void Dispose() { }
+<<<<<<< HEAD
+
+        //public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
+        //{
+        //    _backupStrategy.MakeBackup(listOfFiles, outDirectory, outFileName);
+        //}
+
+        //public void MakeBackup(string inDirectory, string outDirectory, string outFileName)
+        //{
+        //    _backupStrategy.MakeBackup(inDirectory, outDirectory, outFileName);
+        //}
+=======
+>>>>>>> feature/compression
     }
 
     public class ZipBackup : IBackup
@@ -31,11 +51,15 @@ namespace IoCTest.Interfaces
         public void MakeBackup(IList<string> listOfFiles, string outDirectory, string outFileName)
         {
             //Journey into dependent code...
+<<<<<<< HEAD
+            Compression.Compression.CompressDirectory(listOfFiles, outDirectory, outFileName);
+=======
             ICompress compressionItem = new Compression.Interfaces.Compression(new CompressInfo());
             
             //TODO: Pull compression information up where dependency not embedded so deeply
             //TODO: Decouple compression from backup strategy, inject Compression info and default to particular compression on all backups
             compressionItem.CompressDirectory((IList)listOfFiles, outDirectory, outFileName);
+>>>>>>> feature/compression
         }
 
 #if !NET5_0

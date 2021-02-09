@@ -23,10 +23,12 @@ namespace IoCWebAppAspCore
                     config.AddJsonFile("IoCConfig.json",
                         optional: false,
                         reloadOnChange: true);
+                    
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    //webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<AltStartup>();
                 });
     }
 }
