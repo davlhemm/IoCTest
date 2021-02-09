@@ -21,14 +21,25 @@ namespace XUnitIoCTest
         public void TestEnumFactoryDelegated()
         {
             //Create delegate for creating Cat...
-            MyItemDescriptor itemDescriptor = new MyItemDescriptor();
-            itemDescriptor.Type = MyItemType.Cat;
+            AnimalDescriptor catDescriptor    = new AnimalDescriptor { Type = Animal.Cat, Creator = ()=>new Cat()};
+            AnimalDescriptor dogDescriptor    = new AnimalDescriptor { Type = Animal.Dog, Creator = () => new Dog() };
+            AnimalDescriptor horseDescriptor  = new AnimalDescriptor { Type = Animal.Horse, Creator = () => new Horse() };
+            AnimalDescriptor personDescriptor = new AnimalDescriptor { Type = Animal.Person, Creator = () => new Person() };
 
-            //TODO: Create cat creator delegate
-            //itemDescriptor.Creator = new MyItemCreationDelegate();
+            IList<AnimalDescriptor> descriptors = new List<AnimalDescriptor>();
+            descriptors.Add(catDescriptor);
+            descriptors.Add(dogDescriptor);
+            descriptors.Add(horseDescriptor);
+            descriptors.Add(personDescriptor);
 
-            MyItemFactory factory = new MyItemFactory(new List<MyItemDescriptor>());
-            IMyItem item = factory.Create(MyItemType.Cat);
+            AnimalFactory factory = new AnimalFactory(descriptors);
+
+            IAnimal dogItem = factory.Create(Animal.Dog);
+            //Dog has a primitive that should default to 4
+            Assert.True(dogItem.Legs == 4);
+
+            IAnimal personItem = factory.Create(Animal.Person);
+            Assert.True(personItem.Legs == 2);
         }
 
         [Fact]
@@ -157,11 +168,13 @@ namespace XUnitIoCTest
             [Fact]
             public void StratTest()
             {
-                StratContext aStrat = new StratContext(new ConcreteStrategyA());
-                StratContext bStrat = new StratContext(new ConcreteStrategyB());
+                IStrategyBase stratA = new ConcreteStrategyA();
+                IStrategyBase stratB = new ConcreteStrategyB();
+                StratContext stratAContext = new StratContext(stratA);
+                StratContext stratBContext = new StratContext(stratB);
 
-                aStrat.DoStrat();
-                bStrat.DoStrat();
+                stratAContext.DoStrat();
+                stratBContext.DoStrat();
             }
         }
 
