@@ -5,20 +5,27 @@ using System.Linq;
 
 namespace IoCTest.Interfaces
 {
+    public interface IFileImporter
+    {
+        IFileImportInfo ImportInfo { get; }
+        IList<string> GetImportFiles();
+    }
+
     /// <summary>
     /// <para>File Import Process should be what's related to individual file imports...</para>
     /// <remarks>NOTE: Replace with a builder/factory for file importers</remarks>
     /// </summary>
-    public class FileImport : IFileImport
+    public class FileImporter : IFileImporter
     {
         private readonly IFileImportInfo _importInfo;
+        //TODO: Default ImportInfo settings here or within...
         public IFileImportInfo ImportInfo => _importInfo;
 
 
-        private FileImport() { }
+        private FileImporter() { }
         
         //TODO: Configurable base path
-        public FileImport(IFileImportInfo importInfo)
+        public FileImporter(IFileImportInfo importInfo)
         {
             _importInfo = importInfo;
         }
@@ -35,10 +42,11 @@ namespace IoCTest.Interfaces
         }
     }
 
-    public interface IFileImport
+    public interface IFileImportInfo
     {
-        IFileImportInfo ImportInfo { get; }
-        IList<string> GetImportFiles();
+        string BaseImportPath { get; }
+        string SearchPattern { get; }
+        SearchOption SearchOption { get; }
     }
 
     public class FileImportInfo : IFileImportInfo
@@ -47,6 +55,9 @@ namespace IoCTest.Interfaces
         public string SearchPattern { get; }
         public SearchOption SearchOption { get; } = SearchOption.TopDirectoryOnly;
 
+        /// <summary>
+        /// Default location and search pattern use C drive and all files
+        /// </summary>
         public FileImportInfo()
         {
             BaseImportPath = "C:\\";
@@ -58,12 +69,5 @@ namespace IoCTest.Interfaces
             BaseImportPath = baseImportPath;
             SearchPattern = searchPattern;
         }
-    }
-
-    public interface IFileImportInfo
-    {
-        string BaseImportPath { get; }
-        string SearchPattern { get; }
-        SearchOption SearchOption { get; }
     }
 }

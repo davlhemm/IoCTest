@@ -74,7 +74,7 @@ namespace XUnitIoCTest
             string searchPattern = @"*.DWG";
 
             IFileImportInfo importInfo = new FileImportInfo(basePath, searchPattern);
-            IFileImport     importer   = new FileImport(importInfo);
+            IFileImporter   importer   = new FileImporter(importInfo);
 
             IList<string> files = importer.GetImportFiles();
 
@@ -135,8 +135,8 @@ namespace XUnitIoCTest
         [Fact]
         public void TestFileImport()
         {
-            FileImport importProcess = new FileImport(new FileImportInfo("C:\\RDS", ".xlsx"));
-            IList<string> testFiles = importProcess.GetImportFiles();
+            FileImporter importerProcess = new FileImporter(new FileImportInfo("C:\\RDS", ".xlsx"));
+            IList<string> testFiles = importerProcess.GetImportFiles();
 
             foreach (var file in testFiles)
             {
