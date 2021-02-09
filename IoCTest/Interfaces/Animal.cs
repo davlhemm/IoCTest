@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace IoCTest.Interfaces
 {
-    public enum MyItemType
+    public enum Animal
     {
         Person = 0,
         Dog = 1,
@@ -15,37 +14,57 @@ namespace IoCTest.Interfaces
         Horse = 3
     }
 
-    public delegate IMyItem MyItemCreationDelegate();
+    public delegate IAnimal AnimalCreationDelegate();
 
-    public interface IMyItem
+    public interface IAnimal
     {
         int Legs { get; }
     }
 
-    public class MyItemDescriptor
+    public class Cat : IAnimal
     {
-        public MyItemType Type;
-
-        // This ends up being a delegate
-        public MyItemCreationDelegate Creator;
+        public int Legs { get; set; } = 4;
     }
 
-    public class MyItemFactory
+    public class Person : IAnimal
     {
-        private readonly IList<MyItemDescriptor> _creatorList;
+        public int Legs => 2;
+    }
 
-        public MyItemFactory(IList<MyItemDescriptor> creators)
+    public class Horse : IAnimal
+    {
+        public int Legs => 4;
+    }
+
+    public class Dog : IAnimal
+    {
+        public int Legs => 4;
+    }
+
+    public class AnimalDescriptor
+    {
+        public Animal Type;
+
+        // This ends up being a delegate
+        public AnimalCreationDelegate Creator;
+    }
+
+    public class AnimalFactory
+    {
+        private readonly IList<AnimalDescriptor> _creatorList;
+
+        public AnimalFactory(IList<AnimalDescriptor> creators)
         {
             _creatorList = creators;
         }
 
-        public IMyItem Create(MyItemType type)
+        public IAnimal Create(Animal type)
         {
-            MyItemCreationDelegate creator = _creatorList.FirstOrDefault(x => x.Type == type)?.Creator;
+            AnimalCreationDelegate creator = _creatorList.FirstOrDefault(x => x.Type == type)?.Creator;
             if (creator != null) return creator();
             else
             {
-                throw new NullReferenceException("Can't create delegate due to lack of creator type in Create(...)");
+                throw new NullReferenceException($"Can't create delegate due to lack of creator type in Create(...) for {type}");
             }
         }
     }

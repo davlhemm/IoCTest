@@ -8,7 +8,11 @@ namespace Compression
 {
     public static class CompressionStrengthEnum
     {
-        public const string None = nameof(None);
+        public const string None     = nameof(None);
+        public const string Weak     = nameof(Weak);
+        public const string Moderate = nameof(Moderate);
+        public const string Strong   = nameof(Strong);
+        public const string Intense  = nameof(Intense);
     }
     /// <summary>
     /// One side of contract for strength of compression vs myriad of compression strategies
@@ -22,10 +26,15 @@ namespace Compression
         Intense
     }
 
-    public class CompressionInfo
+    public interface ICompressionInfo
+    {
+        public CompressionStrength Strength { get; }
+    }
+
+    public class CompressionInfo: ICompressionInfo
     {
         private CompressionStrength _strength;
-        private CompressionStrength Strength
+        public CompressionStrength Strength
         {
             get => _strength;
             set => _strength = value;
@@ -34,6 +43,54 @@ namespace Compression
 
     public static class Compression
     {
+        public static CompressionStrength CompressStrengthContract(int compressionLevel)
+        {
+            switch (compressionLevel)
+            {
+                case 0:
+                    return CompressionStrength.None;
+                case 1:
+                case 2:
+                    return CompressionStrength.Weak;
+                case 3:
+                case 4:
+                case 5:
+                    return CompressionStrength.Moderate;
+                case 6:
+                case 7:
+                case 8:
+                    return CompressionStrength.Strong;
+                case 9:
+                    return CompressionStrength.Intense;
+                default:
+                    return CompressionStrength.Moderate;
+            }
+        }
+
+        /// <summary>
+        /// Represents homogenized values for this Compression strategy
+        /// </summary>
+        /// <param name="compressionLevel"></param>
+        /// <returns></returns>
+        public static int CompressStrengthContract(CompressionStrength compressionLevel)
+        {
+            switch (compressionLevel)
+            {
+                case CompressionStrength.None:
+                    return 0;
+                case CompressionStrength.Weak:
+                    return 2;
+                case CompressionStrength.Moderate:
+                    return 4;
+                case CompressionStrength.Strong:
+                    return 7;
+                case CompressionStrength.Intense:
+                    return 9;
+                default:
+                    return 5;
+            }
+        }
+
         /// <summary>
         /// Method that compress all the files inside a folder (non-recursive) into a zip file.
         /// </summary>
