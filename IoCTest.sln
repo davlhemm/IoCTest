@@ -13,6 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Compression", "Compression\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF2E3F01-5BD0-46D9-9899-FF9ABC9EBA13}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
 		GitFlow.uxf = GitFlow.uxf
 	EndProjectSection
 EndProject
