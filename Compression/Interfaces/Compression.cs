@@ -28,6 +28,12 @@ namespace Compression.Interfaces
         Intense
     }
 
+
+    public interface ICompressInfo
+    {
+        CompressionStrength Strength { get; }
+    }
+
     public class CompressInfo : ICompressInfo
     {
         //TODO: Defaulted to intense, test this as default constructor valid
@@ -91,11 +97,6 @@ namespace Compression.Interfaces
         }
     }
     
-
-    public interface ICompressInfo
-    {
-        CompressionStrength Strength { get; }
-    }
 
     
     public interface ICompress
