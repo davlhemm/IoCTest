@@ -17,6 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		GitFlow.uxf = GitFlow.uxf
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{FD1FF0AD-0051-4DC7-A12C-AF8508F5FD16}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingSeb.ExpressionEvaluator", "..\ExpressionEvaluator\CodingSeb.ExpressionEvaluator\CodingSeb.ExpressionEvaluator.csproj", "{C34A0AA4-D459-4445-991D-81DD93226437}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormsTest", "FormsTest\FormsTest.csproj", "{D89A7932-D25C-4F99-940C-02C2DB63F59E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +45,20 @@ Global
 		{9AF6DEFB-495F-48A3-BA18-7BF71CEA1F7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AF6DEFB-495F-48A3-BA18-7BF71CEA1F7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AF6DEFB-495F-48A3-BA18-7BF71CEA1F7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C34A0AA4-D459-4445-991D-81DD93226437}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C34A0AA4-D459-4445-991D-81DD93226437}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C34A0AA4-D459-4445-991D-81DD93226437}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C34A0AA4-D459-4445-991D-81DD93226437}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D89A7932-D25C-4F99-940C-02C2DB63F59E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D89A7932-D25C-4F99-940C-02C2DB63F59E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D89A7932-D25C-4F99-940C-02C2DB63F59E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D89A7932-D25C-4F99-940C-02C2DB63F59E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C34A0AA4-D459-4445-991D-81DD93226437} = {FD1FF0AD-0051-4DC7-A12C-AF8508F5FD16}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {671E03D8-9164-4B57-9605-C2618C7A55E5}

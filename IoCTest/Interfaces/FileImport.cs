@@ -69,5 +69,11 @@ namespace IoCTest.Interfaces
             BaseImportPath = baseImportPath;
             SearchPattern = searchPattern;
         }
+
+        public FileImportInfo(string baseImportPath, string searchPattern, SearchOption recurse)
+        :this(baseImportPath,searchPattern)
+        {
+            SearchOption = recurse;
+        }
     }
 }

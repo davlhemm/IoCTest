@@ -18,12 +18,20 @@ namespace XUnitIoCTest
     public class IoCUnitTest
     {
         [Fact]
+        public void TestExpressionBasics()
+        {
+            string paddedEx = "TEST".PadLeft(30,'~');
+
+        }
+
+
+        [Fact]
         public void TestEnumFactoryDelegated()
         {
             //Create delegate for creating Cat...
-            AnimalDescriptor catDescriptor    = new AnimalDescriptor { Type = Animal.Cat, Creator = ()=>new Cat()};
-            AnimalDescriptor dogDescriptor    = new AnimalDescriptor { Type = Animal.Dog, Creator = () => new Dog() };
-            AnimalDescriptor horseDescriptor  = new AnimalDescriptor { Type = Animal.Horse, Creator = () => new Horse() };
+            AnimalDescriptor catDescriptor    = new AnimalDescriptor { Type = Animal.Cat,    Creator = () => new Cat()};
+            AnimalDescriptor dogDescriptor    = new AnimalDescriptor { Type = Animal.Dog,    Creator = () => new Dog() };
+            AnimalDescriptor horseDescriptor  = new AnimalDescriptor { Type = Animal.Horse,  Creator = () => new Horse() };
             AnimalDescriptor personDescriptor = new AnimalDescriptor { Type = Animal.Person, Creator = () => new Person() };
 
             IList<AnimalDescriptor> descriptors = new List<AnimalDescriptor>();
@@ -80,18 +88,25 @@ namespace XUnitIoCTest
         [Fact]
         public void TestBackup()
         {
+            #region FileImport
+            
             //TODO: Classify required info for this backup process, inject
             string basePath = Environment.GetEnvironmentVariable("userprofile") + @"\Documents\LLDataPrcessor\Test\";
             string searchPattern = @"*.DWG";
 
             IFileImportInfo importInfo = new FileImportInfo(basePath, searchPattern);
-            IFileImporter   importer   = new FileImporter(importInfo);
+            IFileImporter importer = new FileImporter(importInfo);
 
             IList<string> files = importer.GetImportFiles();
 
+            #endregion
+
+
+            //TODO: Use expression evaluation at runtime to allow this config...
             string dateStringFormat = $"{DateTime.Now:yyyyMMdd-HHmmss}";
             string backupExt = dateStringFormat + ".bak";
             string zipName = $"{"LLDPDwgBackup"}{dateStringFormat}{".zip"}";
+
 
             // DI compatibility tested in MEDI
             // Ex: services.AddSingleton<IBackup>(x => new ZipBackup());
